@@ -1,0 +1,21 @@
+- numerical_gradient
+- MSE
+- cross entropy error
+- random pick
+- softmax
+train
+
+Layer
+	Flatten(in, out)
+	Affine = Dense( ReLU, Sigmoid)
+	relu
+	sigmoid
+
+loss
+	Softmax-with-Loss
+	MSE
+
+optimizer
+	- SGD
+	Adam
+	Momentum
