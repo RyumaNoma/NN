@@ -34,6 +34,9 @@
     <Filter Include="ソース ファイル\Optimizer">
       <UniqueIdentifier>{08606e38-9891-4047-969f-35cc941d4dea}</UniqueIdentifier>
     </Filter>
+    <Filter Include="mnist">
+      <UniqueIdentifier>{e51e9096-950f-42f2-8c3b-3b00c5549b17}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="実装メモ.txt">
@@ -94,6 +97,18 @@
     </ClInclude>
     <ClInclude Include="Optimizer.hpp">
       <Filter>ヘッダー ファイル\Optimizer</Filter>
+    </ClInclude>
+    <ClInclude Include="mnist\mnist_reader.hpp">
+      <Filter>mnist</Filter>
+    </ClInclude>
+    <ClInclude Include="mnist\mnist_reader_common.hpp">
+      <Filter>mnist</Filter>
+    </ClInclude>
+    <ClInclude Include="mnist\mnist_reader_less.hpp">
+      <Filter>mnist</Filter>
+    </ClInclude>
+    <ClInclude Include="mnist\mnist_utils.hpp">
+      <Filter>mnist</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

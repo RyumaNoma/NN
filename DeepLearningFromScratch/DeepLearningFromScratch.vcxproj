@@ -30,6 +30,10 @@
     <ClInclude Include="Layer.hpp" />
     <ClInclude Include="LossLayer.hpp" />
     <ClInclude Include="Matrix.hpp" />
+    <ClInclude Include="mnist\mnist_reader.hpp" />
+    <ClInclude Include="mnist\mnist_reader_common.hpp" />
+    <ClInclude Include="mnist\mnist_reader_less.hpp" />
+    <ClInclude Include="mnist\mnist_utils.hpp" />
     <ClInclude Include="NeuralNetwork.hpp" />
     <ClInclude Include="Optimizer.hpp" />
     <ClInclude Include="Random.hpp" />
