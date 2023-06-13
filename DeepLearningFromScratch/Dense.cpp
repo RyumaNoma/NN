@@ -3,16 +3,17 @@
 
 namespace layer {
 	Dense::Dense(
+		int inputSize,
 		int outputSize,
 		Initializer::Type initializeType,
 		std::mt19937& initializeRandomEngine,
 		std::shared_ptr<optimizer::Optimizer> optWeight,
 		std::shared_ptr<optimizer::Optimizer> optBias,
 		std::string name)
-		: weight()
+		: weight(inputSize, outputSize)
 		, bias(1, outputSize, 0.0)
-		, input()
-		, dWeight()
+		, input(1, inputSize)
+		, dWeight(inputSize, outputSize)
 		, dBias(1, outputSize)
 		, optWeight(optWeight)
 		, optBias(optBias)
@@ -24,10 +25,10 @@ namespace layer {
 
 	Matrix Dense::Forward(const Matrix& in)
 	{
-		Matrix broadcastBias(in.Row(), in.Col());
+		Matrix broadcastBias(in.Row(), bias.Col());
 		for (int i = 0; i < broadcastBias.Row(); ++i) {
 			for (int j = 0; j < broadcastBias.Col(); ++j) {
-				broadcastBias(i, j) = bias(1, j);
+				broadcastBias(i, j) = bias(0, j);
 			}
 		}
 		Matrix out;

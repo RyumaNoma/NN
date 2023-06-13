@@ -11,6 +11,7 @@ namespace layer {
 	{
 	public:
 		Dense(
+			int inputSize,
 			int outputSize,
 			Initializer::Type initializeType,
 			std::mt19937& initializeRandomEngine,
