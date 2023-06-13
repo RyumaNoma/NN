@@ -117,7 +117,7 @@ void Matrix::Reshape(const ShapeType& shape)
 		throw std::runtime_error("[Reshape]diffrent size");
 	}
 	row = std::get<0>(shape);
-	col = std::get<0>(shape);
+	col = std::get<1>(shape);
 }
 
 Matrix Matrix::T() const
