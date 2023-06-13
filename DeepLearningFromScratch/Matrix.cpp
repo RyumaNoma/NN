@@ -79,7 +79,7 @@ Matrix::~Matrix() {
 
 void Matrix::Resize(int newRow, int newCol) {
 	if (newRow * newCol <= 0) {
-		throw std::runtime_error("negative size");
+		throw std::runtime_error("[Resize]not positive size");
 	}
 	delete[] data;
 	data = nullptr;
@@ -90,7 +90,7 @@ void Matrix::Resize(int newRow, int newCol) {
 
 void Matrix::Reshape(int newRow, int newCol) {
 	if (newRow * newCol != row * col) {
-		throw std::runtime_error("diffrent size");
+		throw std::runtime_error("[Reshape]diffrent size");
 	}
 	row = newRow;
 	col = newCol;
@@ -99,7 +99,7 @@ void Matrix::Reshape(int newRow, int newCol) {
 void Matrix::Reshape(const std::vector<int>& shape)
 {
 	if (shape[0] * shape[1] != row * col) {
-		throw std::runtime_error("diffrent size");
+		throw std::runtime_error("[Reshape]diffrent size");
 	}
 	row = shape[0];
 	col = shape[1];
@@ -224,7 +224,7 @@ Matrix Matrix::HorizontalMin() const
 
 Matrix Matrix::operator+(const Matrix& m) const {
 	if (row != m.row || col != m.col) {
-		throw std::runtime_error("different shape");
+		throw std::runtime_error("[operator +]different shape");
 	}
 	Matrix result(row, col);
 	for (int i = 0; i < row * col; ++i) {
@@ -249,7 +249,7 @@ Matrix Matrix::operator+(double d) const
 
 Matrix Matrix::operator-(const Matrix& m) const {
 	if (row != m.row || col != m.col) {
-		throw std::runtime_error("different shape");
+		throw std::runtime_error("[operator -]different shape");
 	}
 	Matrix result(row, col);
 	for (int i = 0; i < row * col; ++i) {
@@ -278,7 +278,7 @@ Matrix Matrix::operator-(double d) const
 
 Matrix Matrix::operator*(const Matrix& m) const {
 	if (col != m.col || row != m.row) {
-		throw std::runtime_error("different shape");
+		throw std::runtime_error("[operator *]different shape");
 	}
 	Matrix result(row, col);
 	for (int i = 0; i < row * col; ++i) {
@@ -301,7 +301,7 @@ Matrix operator * (double coef, const Matrix& m) {
 
 Matrix Matrix::Dot(const Matrix& left, const Matrix& right) {
 	if (left.col != right.row) {
-		throw std::runtime_error("not match shape");
+		throw std::runtime_error("[Dot]not match shape");
 	}
 	Matrix result(left.row, right.col);
 	for (int i = 0; i < left.row; ++i) {
@@ -318,7 +318,7 @@ Matrix Matrix::Dot(const Matrix& left, const Matrix& right) {
 Matrix Matrix::operator/(const Matrix& m) const
 {
 	if (row != m.row || col != m.col) {
-		throw std::runtime_error("different shape");
+		throw std::runtime_error("[operator /]different shape");
 	}
 	Matrix result(row, col);
 	for (int i = 0; i < row * col; ++i) {
@@ -356,7 +356,7 @@ Matrix& Matrix::operator=(const Matrix& m) {
 
 Matrix& Matrix::operator+=(const Matrix& m) {
 	if (row != m.row || col != m.col) {
-		throw std::runtime_error("different shape");
+		throw std::runtime_error("[operator +=]different shape");
 	}
 	for (int i = 0; i < row * col; ++i) {
 		this->data[i] += m.data[i];
@@ -366,7 +366,7 @@ Matrix& Matrix::operator+=(const Matrix& m) {
 
 Matrix& Matrix::operator-=(const Matrix& m) {
 	if (row != m.row || col != m.col) {
-		throw std::runtime_error("different shape");
+		throw std::runtime_error("[operator -=]different shape");
 	}
 	for (int i = 0; i < row * col; ++i) {
 		this->data[i] -= m.data[i];
@@ -376,7 +376,7 @@ Matrix& Matrix::operator-=(const Matrix& m) {
 
 Matrix& Matrix::operator*=(const Matrix& m) {
 	if (row != m.row || col != m.col) {
-		throw std::runtime_error("different shape");
+		throw std::runtime_error("[operator *=]different shape");
 	}
 	for (int i = 0; i < row * col; ++i) {
 		this->data[i] *= m.data[i];
@@ -395,7 +395,7 @@ Matrix& Matrix::operator*=(double coef)
 Matrix& Matrix::operator/=(const Matrix& m)
 {
 	if (row != m.row || col != m.col) {
-		throw std::runtime_error("different shape");
+		throw std::runtime_error("[operator /=]different shape");
 	}
 	for (int i = 0; i < row * col; ++i) {
 		this->data[i] /= m.data[i];
@@ -426,14 +426,14 @@ bool Matrix::operator!=(const Matrix& m) const noexcept {
 
 double& Matrix::operator()(int i) const {
 	if (i >= Size()) {
-		throw std::runtime_error("out of data");
+		throw std::runtime_error("[operator (i)]out of data");
 	}
 	return data[i];
 }
 
 double& Matrix::operator()(int i, int j) const {
 	if (i * col + j >= Size()) {
-		throw std::runtime_error("out of data");
+		throw std::runtime_error("[operator (i,j)]out of data");
 	}
 	return data[i * col + j];
 }
