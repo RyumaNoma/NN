@@ -42,6 +42,8 @@ public:
 	Matrix VerticalMin() const;
 	Matrix HorizontalMin() const;
 
+	friend Matrix Abs(const Matrix& m);
+
 	Matrix operator + (const Matrix& m) const;
 	friend Matrix operator + (double d, const Matrix& m);
 	Matrix operator + (double d) const;

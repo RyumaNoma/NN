@@ -248,6 +248,15 @@ Matrix Matrix::operator+(const Matrix& m) const {
 	return result;
 }
 
+Matrix Abs(const Matrix& m)
+{
+	Matrix out(m.Shape());
+	for (int i = 0; i < m.Size(); ++i) {
+		out(i) = std::abs(m(i));
+	}
+	return out;
+}
+
 Matrix operator+(double d, const Matrix& m)
 {
 	return m + d;

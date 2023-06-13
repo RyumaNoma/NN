@@ -21,6 +21,11 @@ namespace layer {
 		Matrix Forward(const Matrix& in) override;
 		Matrix Backward(const Matrix& dout) override;
 		void Update() override;
+
+		Matrix& Weight() { return weight; }
+		Matrix& Bias() { return bias; }
+		Matrix& GradientWeight() { return dWeight; }
+		Matrix& GradientBias() { return dBias; }
 	private:
 		Matrix weight, bias;
 		Initializer initializer;

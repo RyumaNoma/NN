@@ -120,4 +120,5 @@ Matrix Common::onehot(const Matrix& verticalVector, int numClasses)
 			}
 		}
 	}
+	return converted;
 }

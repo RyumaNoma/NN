@@ -37,6 +37,9 @@
     <Filter Include="mnist">
       <UniqueIdentifier>{e51e9096-950f-42f2-8c3b-3b00c5549b17}</UniqueIdentifier>
     </Filter>
+    <Filter Include="実験">
+      <UniqueIdentifier>{620a6a2a-dfaa-4be5-b50b-1c1d0f504a94}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="実装メモ.txt">
@@ -159,6 +162,9 @@
     </ClCompile>
     <ClCompile Include="SGD.cpp">
       <Filter>ソース ファイル\Optimizer</Filter>
+    </ClCompile>
+    <ClCompile Include="GradientCheck.cpp">
+      <Filter>実験</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

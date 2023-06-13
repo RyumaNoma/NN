@@ -25,6 +25,7 @@ namespace layer {
 
 	Matrix Dense::Forward(const Matrix& in)
 	{
+		this->input = in;
 		Matrix broadcastBias(in.Row(), bias.Col());
 		for (int i = 0; i < broadcastBias.Row(); ++i) {
 			for (int j = 0; j < broadcastBias.Col(); ++j) {
@@ -40,7 +41,7 @@ namespace layer {
 	{
 		Matrix dInput = Matrix::Dot(dout, weight.T());
 		dWeight = Matrix::Dot(input.T(), dout);
-		dBias = dout.VerticalSum();
+		dBias = dout.VerticalSum().T();
 		return dInput;
 	}
 	void Dense::Update()

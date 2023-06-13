@@ -11,9 +11,5 @@ Matrix layer::Sigmoid::Forward(const Matrix& in)
 
 Matrix layer::Sigmoid::Backward(const Matrix& dout)
 {
-	Matrix dInput(dout.Shape());
-	for (int i = 0; i < dout.Size(); ++i) {
-		dInput(i) = out(i) * (1 - out(i));
-	}
-	return dout * dInput;
+	return dout * (1.0 - out) * out;
 }
