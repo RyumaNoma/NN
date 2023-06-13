@@ -13,7 +13,7 @@ public:
 	Matrix(const Matrix& m) noexcept;
 	Matrix(int row, int col, double const* rawData) noexcept;
 	Matrix(int row, int col, double fill) noexcept;
-	Matrix(const std::vector<int>& rawData) noexcept;
+	Matrix(int row, int col, const std::vector<int>& flattenData) noexcept;
 	~Matrix();
 
 	// ATTENTION: 必ず元のデータの削除と新しい領域の確保を行う

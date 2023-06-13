@@ -73,17 +73,17 @@ Matrix::Matrix(int row, int col, double fill) noexcept
 	}
 }
 
-Matrix::Matrix(const std::vector<int>& rawData) noexcept
-	: row(1)
-	, col(rawData.size())
+Matrix::Matrix(int row, int col, const std::vector<int>& flattenData) noexcept
+	: row(row)
+	, col(col)
 	, data(nullptr)
 {
 	if (row * col > 0) {
 		data = new double[row * col];
 	}
 	if (data) {
-		for (int i = 0; i < col; ++i) {
-			data[i] = rawData[i];
+		for (int i = 0; i < row * col; ++i) {
+			data[i] = flattenData[i];
 		}
 	}
 }
