@@ -11,6 +11,7 @@ public:
 	NeuralNetwork();
 
 	void Add(std::shared_ptr<layer::Layer> layer);
+	void SetLossLayer(std::shared_ptr<loss_layer::LossLayer> lossLayer);
 	// Å“K‰»1ƒ‹[ƒv•ª
 	// return: loss
 	double Fit(const Matrix& in, const Matrix& out);
