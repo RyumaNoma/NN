@@ -43,7 +43,7 @@ Matrix::Matrix(const Matrix& m) noexcept
 	}
 }
 
-Matrix::Matrix(int row, int col, double const* d) noexcept
+Matrix::Matrix(int row, int col, double const* rawData) noexcept
 	: row(row)
 	, col(col)
 	, data(nullptr)
@@ -53,7 +53,7 @@ Matrix::Matrix(int row, int col, double const* d) noexcept
 	}
 	if (data) {
 		for (int i = 0; i < row * col; ++i) {
-			data[i] = d[i];
+			data[i] = rawData[i];
 		}
 	}
 }
@@ -69,6 +69,21 @@ Matrix::Matrix(int row, int col, double fill) noexcept
 	if (data) {
 		for (int i = 0; i < row * col; i++) {
 			data[i] = fill;
+		}
+	}
+}
+
+Matrix::Matrix(const std::vector<int>& rawData) noexcept
+	: row(1)
+	, col(rawData.size())
+	, data(nullptr)
+{
+	if (row * col > 0) {
+		data = new double[row * col];
+	}
+	if (data) {
+		for (int i = 0; i < col; ++i) {
+			data[i] = rawData[i];
 		}
 	}
 }
