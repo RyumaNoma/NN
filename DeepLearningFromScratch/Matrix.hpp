@@ -1,13 +1,15 @@
 #pragma once
 #include <iostream>
 #include <vector>
+#include <tuple>
 
 // *演算子はアダマール積
 class Matrix {
 public:
+	using ShapeType = std::tuple<int, int>;
 	Matrix() noexcept;
 	Matrix(int row, int col) noexcept;
-	Matrix(const std::vector<int>& shape) noexcept;
+	Matrix(const ShapeType& shape) noexcept;
 	Matrix(const Matrix& m) noexcept;
 	Matrix(int row, int col, double const* d) noexcept;
 	Matrix(int row, int col, double fill) noexcept;
@@ -17,12 +19,12 @@ public:
 	// 元のデータも残らない
 	void Resize(int newRow, int newCol);
 	void Reshape(int newRow, int newCol);
-	void Reshape(const std::vector<int>& shape);
+	void Reshape(const ShapeType& shape);
 
 	int Row() const noexcept { return row; }
 	int Col() const noexcept { return col; }
 	int Size() const noexcept { return row * col; }
-	std::vector<int> Shape() const noexcept { return { row, col }; }
+	ShapeType Shape() const noexcept { return ShapeType(row, col); }
 
 	Matrix T() const;
 	Matrix Flatten() const;

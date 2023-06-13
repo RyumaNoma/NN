@@ -18,9 +18,9 @@ Matrix::Matrix(int row, int col) noexcept
 	}
 }
 
-Matrix::Matrix(const std::vector<int>& shape) noexcept
-	: row(shape.at(0))
-	, col(shape.at(1))
+Matrix::Matrix(const ShapeType& shape) noexcept
+	: row(std::get<0>(shape))
+	, col(std::get<1>(shape))
 	, data(nullptr)
 {
 	if (row * col > 0) {
@@ -96,13 +96,13 @@ void Matrix::Reshape(int newRow, int newCol) {
 	col = newCol;
 }
 
-void Matrix::Reshape(const std::vector<int>& shape)
+void Matrix::Reshape(const ShapeType& shape)
 {
-	if (shape[0] * shape[1] != row * col) {
+	if (std::get<0>(shape) * std::get<1>(shape) != row * col) {
 		throw std::runtime_error("[Reshape]diffrent size");
 	}
-	row = shape[0];
-	col = shape[1];
+	row = std::get<0>(shape);
+	col = std::get<0>(shape);
 }
 
 Matrix Matrix::T() const
