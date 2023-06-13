@@ -10,6 +10,7 @@ namespace layer
 		for (int i = 0; i < out.Size(); ++i) {
 			out(i) = std::max(0.0, in(i));
 		}
+		return out;
 	}
 	Matrix ReLU::Backward(const Matrix& dout)
 	{
