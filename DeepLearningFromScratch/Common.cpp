@@ -105,3 +105,19 @@ Matrix Common::numerical_gradient(Matrix& params, NeuralNetwork& nn, const Matri
 	}
 	return grad;
 }
+
+Matrix Common::onehot(const Matrix& verticalVector, int numClasses)
+{
+	Matrix converted(verticalVector.Row(), numClasses);
+
+	for (int i = 0; i < verticalVector.Row(); ++i) {
+		for (int j = 0; j < numClasses; ++j) {
+			if (j == verticalVector(i, 0)) {
+				converted(i, j) = 1.0;
+			}
+			else {
+				converted(i, j) = 0.0;
+			}
+		}
+	}
+}
