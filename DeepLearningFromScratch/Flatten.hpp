@@ -1,5 +1,6 @@
 #pragma once
 #include "Layer.hpp"
+#include "Matrix.hpp"
 
 namespace layer {
 	class Flatten
@@ -11,7 +12,7 @@ namespace layer {
 		Matrix Backward(const Matrix& dout) override;
 		void Update() override {}
 	private:
-		std::vector<int> inputShape;
+		Matrix::ShapeType inputShape;
 	};
 }
 
