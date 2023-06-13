@@ -2,7 +2,6 @@
 #include <random>
 class Matrix;
 
-// TODO: ‰Šú‰»•û–@‚Ì•×‹­&À‘•
 class Initializer
 {
 public:
