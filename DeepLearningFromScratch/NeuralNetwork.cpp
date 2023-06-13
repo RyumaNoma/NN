@@ -13,7 +13,7 @@ void NeuralNetwork::Add(std::shared_ptr<layer::Layer> layer)
 
 double NeuralNetwork::Fit(const Matrix& in, const Matrix& out)
 {
-	double loss = Inference(in);
+	double loss = Inference(in, out);
 	Gradient();
 	Update();
 	return loss;
