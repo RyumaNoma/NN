@@ -108,7 +108,7 @@ void TestMatrix::Dot() {
 	Matrix a(2, 3, data);
 	Matrix b(3, 2, data2);
 	Matrix c = Matrix::Dot(a, b);
-	assert(c.Shape() == std::vector<int>({2, 2}));
+	assert(c.Shape() == Matrix::ShapeType({2, 2}));
 	for (int i = 0; i < 4; ++i) {
 		assert(c(i) == ans[i]);
 	}
