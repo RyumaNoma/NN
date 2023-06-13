@@ -5,7 +5,7 @@ namespace loss_layer {
 		: public LossLayer
 	{
 	public:
-		SoftmaxCrossEntropyError(std::string name) : LossLayer(name) {}
+		SoftmaxCrossEntropyError(std::string name = "Softmax Cross Entropy Error Layer") : LossLayer(name) {}
 		virtual double Forward(const Matrix& pred, const Matrix& answer) override;
 		virtual Matrix Backward() override;
 	};
