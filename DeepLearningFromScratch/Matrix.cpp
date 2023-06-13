@@ -233,6 +233,20 @@ Matrix Matrix::operator+(const Matrix& m) const {
 	return result;
 }
 
+Matrix operator+(double d, const Matrix& m)
+{
+	return m + d;
+}
+
+Matrix Matrix::operator+(double d) const
+{
+	Matrix result(row, col);
+	for (int i = 0; i < row * col; ++i) {
+		result.data[i] = this->data[i] + d;
+	}
+	return result;
+}
+
 Matrix Matrix::operator-(const Matrix& m) const {
 	if (row != m.row || col != m.col) {
 		throw std::runtime_error("different shape");
@@ -240,6 +254,24 @@ Matrix Matrix::operator-(const Matrix& m) const {
 	Matrix result(row, col);
 	for (int i = 0; i < row * col; ++i) {
 		result.data[i] = this->data[i] - m.data[i];
+	}
+	return result;
+}
+
+Matrix operator-(double d, const Matrix& m)
+{
+	Matrix result(m.row, m.col);
+	for (int i = 0; i < m.row * m.col; ++i) {
+		result.data[i] = d - m.data[i];
+	}
+	return result;
+}
+
+Matrix Matrix::operator-(double d) const
+{
+	Matrix result(row, col);
+	for (int i = 0; i < row * col; ++i) {
+		result.data[i] = this->data[i] - d;
 	}
 	return result;
 }
@@ -263,6 +295,10 @@ Matrix Matrix::operator*(double coef) const {
 	return result;
 }
 
+Matrix operator * (double coef, const Matrix& m) {
+	return m * coef;
+}
+
 Matrix Matrix::Dot(const Matrix& left, const Matrix& right) {
 	if (left.col != right.row) {
 		throw std::runtime_error("not match shape");
@@ -279,10 +315,31 @@ Matrix Matrix::Dot(const Matrix& left, const Matrix& right) {
 	return result;
 }
 
+Matrix Matrix::operator/(const Matrix& m) const
+{
+	if (row != m.row || col != m.col) {
+		throw std::runtime_error("different shape");
+	}
+	Matrix result(row, col);
+	for (int i = 0; i < row * col; ++i) {
+		result.data[i] = this->data[i] / m.data[i];
+	}
+	return result;
+}
+
 Matrix Matrix::operator/(double coef) const {
 	Matrix result(row, col);
 	for (int i = 0; i < row * col; ++i) {
 		result.data[i] = this->data[i] / coef;
+	}
+	return result;
+}
+
+Matrix operator/(double d, const Matrix& m)
+{
+	Matrix result(m.row, m.col);
+	for (int i = 0; i < m.row * m.col; ++i) {
+		result(i) = d / m(i);
 	}
 	return result;
 }
@@ -335,6 +392,17 @@ Matrix& Matrix::operator*=(double coef)
 	return *this;
 }
 
+Matrix& Matrix::operator/=(const Matrix& m)
+{
+	if (row != m.row || col != m.col) {
+		throw std::runtime_error("different shape");
+	}
+	for (int i = 0; i < row * col; ++i) {
+		this->data[i] /= m.data[i];
+	}
+	return *this;
+}
+
 Matrix& Matrix::operator/=(double coef)
 {
 	for (int i = 0; i < row * col; ++i) {
@@ -379,8 +447,4 @@ std::ostream& operator<<(std::ostream& os, const Matrix& m) {
 		os << "}\n";
 	}
 	return os;
-}
-
-Matrix operator * (double coef, const Matrix& m) {
-	return m * coef;
 }

@@ -40,17 +40,25 @@ public:
 	Matrix HorizontalMin() const;
 
 	Matrix operator + (const Matrix& m) const;
-	// TODO : Matrix : (Matrix) + (double)‚ÌŽÀ‘•
+	friend Matrix operator + (double d, const Matrix& m);
+	Matrix operator + (double d) const;
 	Matrix operator - (const Matrix& m) const;
+	Matrix operator - (double d) const;
+	friend Matrix operator - (double d, const Matrix& m);
 	Matrix operator * (const Matrix& m) const;
 	Matrix operator * (double coef) const;
-	static Matrix Dot(const Matrix& left, const Matrix& right);
+	friend Matrix operator * (double coef, const Matrix& m);
+	Matrix operator / (const Matrix& m) const;
 	Matrix operator / (double coef) const;
+	friend Matrix operator / (double d, const Matrix& m);
+	static Matrix Dot(const Matrix& left, const Matrix& right);
+
 	Matrix& operator = (const Matrix& m);
 	Matrix& operator += (const Matrix& m);
 	Matrix& operator -= (const Matrix& m);
 	Matrix& operator *= (const Matrix& m);
 	Matrix& operator *= (double coef);
+	Matrix& operator /= (const Matrix& m);
 	Matrix& operator /= (double coef);
 	bool operator == (const Matrix& m) const noexcept;
 	bool operator != (const Matrix& m) const noexcept;
@@ -63,4 +71,3 @@ private:
 	int col;
 	double* data;
 };
-Matrix operator * (double coef, const Matrix& m);
