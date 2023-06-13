@@ -4,20 +4,22 @@
 namespace layer {
 	Dense::Dense(
 		int outputSize,
-		std::string initializer,
+		Initializer::Type initializeType,
+		std::mt19937& initializeRandomEngine,
 		std::shared_ptr<optimizer::Optimizer> optWeight,
 		std::shared_ptr<optimizer::Optimizer> optBias,
 		std::string name)
 		: weight()
-		, bias(1, outputSize)
-		, initializer(initializer)
+		, bias(1, outputSize, 0.0)
 		, input()
 		, dWeight()
 		, dBias(1, outputSize)
 		, optWeight(optWeight)
 		, optBias(optBias)
+		, initializeType(initializeType)
 		, Layer(name)
 	{
+		Initializer::Initialize(weight, initializeRandomEngine, initializeType);
 	}
 
 	Matrix Dense::Forward(const Matrix& in)

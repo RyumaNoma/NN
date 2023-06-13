@@ -12,7 +12,8 @@ namespace layer {
 	public:
 		Dense(
 			int outputSize,
-			std::string initializer,
+			Initializer::Type initializeType,
+			std::mt19937& initializeRandomEngine,
 			std::shared_ptr<optimizer::Optimizer> optWeight,
 			std::shared_ptr<optimizer::Optimizer> optBias,
 			std::string name = "Dense Layer");
@@ -25,5 +26,6 @@ namespace layer {
 		Matrix input;
 		Matrix dWeight, dBias;
 		std::shared_ptr<optimizer::Optimizer> optWeight, optBias;
+		Initializer::Type initializeType;
 	};
 }

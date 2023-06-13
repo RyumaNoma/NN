@@ -85,7 +85,7 @@ Matrix Common::random_pick(int pickNum, const Matrix& data, Random& rand)
 	}
 	return out;
 }
-// TODO: style : out ‚Æ answer ‚Ì“ˆê
+
 Matrix Common::numerical_gradient(Matrix& params, NeuralNetwork& nn, const Matrix& in, const Matrix& answer)
 {
 	double h = 1e-4;

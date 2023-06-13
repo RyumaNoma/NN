@@ -1,12 +1,18 @@
 #pragma once
+#include <random>
 class Matrix;
 
 // TODO: ‰Šú‰»•û–@‚Ì•×‹­&À‘•
-// QÆ“n‚µH
 class Initializer
 {
 public:
-	Initializer(std::string type);
-	void Initialize(Matrix& m);
+	enum class Type {
+		Xavier,
+		He
+	};
+	static void Initialize(Matrix& m, std::mt19937& rnd, Type type);
+private:
+	static void InitializeXavier(Matrix& m, std::mt19937& rnd);
+	static void InitializeHe(Matrix& m, std::mt19937& rnd);
 };
 
