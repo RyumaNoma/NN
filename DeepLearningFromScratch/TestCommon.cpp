@@ -3,6 +3,7 @@
 #include "Common.hpp"
 #include "Random.hpp"
 #include <iostream>
+#include <cassert>
 
 void TestCommon::Softmax()
 {
@@ -49,10 +50,24 @@ void TestCommon::MSE()
 void TestCommon::RandomPick()
 {
 	double d[10] = { 1,2,3,4,5,6,7,8,9,0 };
-	Matrix m(10, 1);
+	Matrix m(10, 1, 100);
 	std::mt19937 e;
+
+	auto index1 = Common::random_index(4, 10, e);
+	auto index2 = Common::random_index(15, 10, e);
+	assert(index1.size() == 4);
+	assert(index2.size() == 10);
+
 	Matrix picked = Common::random_pick(5, m, e);
+	Matrix picked1 = Common::pick(m, index1);
+	Matrix picked2 = Common::pick(m, index2);
+
+	assert(picked.Size() == 5);
+	assert(picked1.Size() == 4);
+	assert(picked2.Size() == 10);
 	std::cerr << picked << std::endl;
+	std::cerr << picked1 << std::endl;
+	std::cerr << picked2 << std::endl;
 	std::cerr << "finish random pick test" << std::endl;
 }
 
