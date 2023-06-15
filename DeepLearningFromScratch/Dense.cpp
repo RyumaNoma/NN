@@ -1,5 +1,6 @@
 #include "Dense.hpp"
 #include "Matrix.hpp"
+#include <sstream>
 
 namespace layer {
 	Dense::Dense(
@@ -48,5 +49,25 @@ namespace layer {
 	{
 		optWeight->Update(weight, dWeight);
 		optBias->Update(bias, dBias);
+	}
+	std::string Dense::Serialize() const
+	{
+		std::ostringstream oss;
+		oss << "[name]" << '\n';
+		oss << GetName() << '\n';
+		oss << "[size]" << '\n';
+		oss << weight.Row() << " " << weight.Col() << '\n';
+		oss << "[initialize]" << '\n';
+		oss << initializeType << '\n';
+		oss << "[optWeight]" << '\n';
+		oss << optWeight->GetAlgorithmName() << '\n';
+		oss << "[optBias]" << '\n';
+		oss << optBias->GetAlgorithmName() << '\n';
+		oss << "[input]" << '\n';
+		oss << "[weight]" << '\n';
+		oss << weight << '\n';
+		oss << "[bias]" << '\n';
+		oss << bias << '\n';
+		return oss.str();
 	}
 }

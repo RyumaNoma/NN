@@ -19,6 +19,7 @@ public:
 	Matrix Predict(const Matrix& in);
 	// return: loss
 	double Inference(const Matrix& in, const Matrix& out);
+	// Inferenceé¿çsÇµÇΩå„Ç∂Ç·Ç»Ç¢Ç∆É_ÉÅ
 	void Gradient();
 	void Update();
 

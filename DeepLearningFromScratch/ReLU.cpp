@@ -1,4 +1,5 @@
 #include "ReLU.hpp"
+#include <sstream>
 
 namespace layer
 {
@@ -20,5 +21,12 @@ namespace layer
 			dInput(i) = (input(i) > 0);
 		}
 		return dInput * dout;
+	}
+	std::string ReLU::Serialize() const
+	{
+		std::ostringstream oss;
+		oss << "[name]" << '\n';
+		oss << GetName() << '\n';
+		return oss.str();
 	}
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include <random>
+#include <iostream>
 class Matrix;
 
 class Initializer
@@ -14,4 +15,4 @@ private:
 	static void InitializeXavier(Matrix& m, std::mt19937& rnd);
 	static void InitializeHe(Matrix& m, std::mt19937& rnd);
 };
-
+std::ostream& operator << (std::ostream& os, const Initializer::Type type);

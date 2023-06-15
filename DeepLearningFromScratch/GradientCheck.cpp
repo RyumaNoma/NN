@@ -1,6 +1,7 @@
 // 参考: https://www.tensorflow.org/tutorials/keras/classification?hl=ja
 #include "NeuralNetwork.hpp"
 #include "Common.hpp"
+#include "Debug.hpp"
 // layer
 #include "Dense.hpp"
 #include "ReLU.hpp"
@@ -76,6 +77,9 @@ int main(int argc, char* argv[]) {
     std::cout << " [Dense Layer 2]" << std::endl;
     std::cout << "差の最大値：" << Abs(numGradWeight2 - dense2->GradientWeight()).Max() << std::endl;
     std::cout << "差の最小値：" << Abs(numGradBias2 - dense2->GradientBias()).Min() << std::endl;
+
+    Debug::Reset();
+    Debug::Print(model.Serialize());
 
     return 0;
 }

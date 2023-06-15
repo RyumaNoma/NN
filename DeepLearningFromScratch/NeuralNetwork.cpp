@@ -1,4 +1,5 @@
 #include "NeuralNetwork.hpp"
+#include <sstream>
 
 NeuralNetwork::NeuralNetwork()
 	: layers()
@@ -53,4 +54,14 @@ void NeuralNetwork::Update()
 	for (std::shared_ptr<layer::Layer> layer : layers) {
 		layer->Update();
 	}
+}
+
+std::string NeuralNetwork::Serialize() const
+{
+	std::ostringstream oss;
+	for (std::shared_ptr<layer::Layer> layer : layers) {
+		oss << layer->Serialize();
+	}
+	oss << lossLayer->Serialize();
+	return oss.str();
 }

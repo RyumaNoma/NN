@@ -11,6 +11,7 @@ namespace layer {
 		Matrix Forward(const Matrix& in) override;
 		Matrix Backward(const Matrix& dout) override;
 		void Update() override {}
+		std::string Serialize() const override;
 	private:
 		Matrix input;
 	};

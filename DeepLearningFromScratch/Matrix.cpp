@@ -463,6 +463,7 @@ double& Matrix::operator()(int i, int j) const {
 }
 
 std::ostream& operator<<(std::ostream& os, const Matrix& m) {
+	os << "{\n";
 	for (int i = 0; i < m.row; ++i) {
 		os << " {";
 		for (int j = 0; j < m.col; ++j) {
@@ -470,5 +471,6 @@ std::ostream& operator<<(std::ostream& os, const Matrix& m) {
 		}
 		os << "}\n";
 	}
+	os << "}";
 	return os;
 }

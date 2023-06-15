@@ -39,3 +39,19 @@ void Initializer::InitializeHe(Matrix& m, std::mt19937& rnd)
 		m(i) = dist(rnd);
 	}
 }
+
+std::ostream& operator<<(std::ostream& os, const Initializer::Type type)
+{
+	switch (type)
+	{
+	case Initializer::Type::Xavier:
+		os << "Xavier";
+		break;
+	case Initializer::Type::He:
+		os << "He";
+		break;
+	default:
+		break;
+	}
+	return os;
+}

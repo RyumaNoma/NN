@@ -10,6 +10,8 @@ namespace loss_layer {
 		virtual ~LossLayer() {}
 		virtual double Forward(const Matrix& pred, const Matrix& answer) = 0;
 		virtual Matrix Backward() = 0;
+		virtual std::string Serialize() const = 0;
+		std::string GetName() const { return name; }
 	protected:
 		std::string name;
 		Matrix pred, answer;

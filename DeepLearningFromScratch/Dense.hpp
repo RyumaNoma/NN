@@ -21,6 +21,7 @@ namespace layer {
 		Matrix Forward(const Matrix& in) override;
 		Matrix Backward(const Matrix& dout) override;
 		void Update() override;
+		std::string Serialize() const override;
 
 		Matrix& Weight() { return weight; }
 		Matrix& Bias() { return bias; }
@@ -28,7 +29,6 @@ namespace layer {
 		Matrix& GradientBias() { return dBias; }
 	private:
 		Matrix weight, bias;
-		Initializer initializer;
 		Matrix input;
 		Matrix dWeight, dBias;
 		std::shared_ptr<optimizer::Optimizer> optWeight, optBias;
