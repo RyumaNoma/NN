@@ -116,6 +116,9 @@
     <ClInclude Include="Tanh.hpp">
       <Filter>ヘッダー ファイル\Layer</Filter>
     </ClInclude>
+    <ClInclude Include="Evaluation.hpp">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Matrix.cpp">
@@ -171,6 +174,15 @@
     </ClCompile>
     <ClCompile Include="Tanh.cpp">
       <Filter>ソース ファイル\Layer</Filter>
+    </ClCompile>
+    <ClCompile Include="TrainingCheck.cpp">
+      <Filter>実験</Filter>
+    </ClCompile>
+    <ClCompile Include="Evaluation.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="ForwardCheck.cpp">
+      <Filter>実験</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

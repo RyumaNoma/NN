@@ -25,6 +25,7 @@
     <ClInclude Include="Common.hpp" />
     <ClInclude Include="Debug.hpp" />
     <ClInclude Include="Dense.hpp" />
+    <ClInclude Include="Evaluation.hpp" />
     <ClInclude Include="Flatten.hpp" />
     <ClInclude Include="Initializer.hpp" />
     <ClInclude Include="Layer.hpp" />
@@ -50,8 +51,13 @@
     <ClCompile Include="Common.cpp" />
     <ClCompile Include="Debug.cpp" />
     <ClCompile Include="Dense.cpp" />
+    <ClCompile Include="Evaluation.cpp" />
     <ClCompile Include="Flatten.cpp" />
-    <ClCompile Include="GradientCheck.cpp" />
+    <ClCompile Include="ForwardCheck.cpp" />
+    <ClCompile Include="GradientCheck.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Initializer.cpp" />
     <ClCompile Include="Main.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -68,6 +74,10 @@
     <ClCompile Include="TestCommon.cpp" />
     <ClCompile Include="TestMatrix.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="TrainingCheck.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
