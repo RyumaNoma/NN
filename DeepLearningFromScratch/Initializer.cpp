@@ -20,7 +20,7 @@ void Initializer::Initialize(Matrix& m, std::mt19937& rnd, Type type)
 
 void Initializer::InitializeXavier(Matrix& m, std::mt19937& rnd)
 {
-	double std = 1.0 / std::sqrt(m.Col());
+	double std = 1.0 / std::sqrt(m.Row());
 	// •½‹Ï0 •W€•Î·std
 	std::normal_distribution<> dist(0.0, std);
 	
@@ -31,7 +31,7 @@ void Initializer::InitializeXavier(Matrix& m, std::mt19937& rnd)
 
 void Initializer::InitializeHe(Matrix& m, std::mt19937& rnd)
 {
-	double std = std::sqrt(2.0 / m.Col());
+	double std = std::sqrt(2.0 / m.Row());
 	// •½‹Ï0 •W€•Î·std
 	std::normal_distribution<> dist(0.0, std);
 
