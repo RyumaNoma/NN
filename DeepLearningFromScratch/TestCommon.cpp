@@ -50,8 +50,8 @@ void TestCommon::RandomPick()
 {
 	double d[10] = { 1,2,3,4,5,6,7,8,9,0 };
 	Matrix m(10, 1);
-	Random rand;
-	Matrix picked = Common::random_pick(5, m, rand);
+	std::mt19937 e;
+	Matrix picked = Common::random_pick(5, m, e);
 	std::cerr << picked << std::endl;
 	std::cerr << "finish random pick test" << std::endl;
 }
