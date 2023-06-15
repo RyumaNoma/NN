@@ -4,7 +4,6 @@
 #include <memory>
 class Matrix;
 
-// TODO: tanh‘w‚ÌŽÀ‘•
 // TODO: virtual void Initialize() = 0;
 namespace layer {
 	class Layer {

@@ -41,6 +41,7 @@
     <ClInclude Include="SGD.hpp" />
     <ClInclude Include="Sigmoid.hpp" />
     <ClInclude Include="SoftmaxCrossEntropyError.hpp" />
+    <ClInclude Include="Tanh.hpp" />
     <ClInclude Include="TestCommon.hpp" />
     <ClInclude Include="TestMatrix.hpp" />
     <ClInclude Include="Timer.hpp" />
@@ -63,6 +64,7 @@
     <ClCompile Include="SGD.cpp" />
     <ClCompile Include="Sigmoid.cpp" />
     <ClCompile Include="SoftmaxCrossEntropyError.cpp" />
+    <ClCompile Include="Tanh.cpp" />
     <ClCompile Include="TestCommon.cpp" />
     <ClCompile Include="TestMatrix.cpp" />
     <ClCompile Include="Timer.cpp" />

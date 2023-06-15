@@ -113,6 +113,9 @@
     <ClInclude Include="mnist\mnist_utils.hpp">
       <Filter>mnist</Filter>
     </ClInclude>
+    <ClInclude Include="Tanh.hpp">
+      <Filter>ヘッダー ファイル\Layer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Matrix.cpp">
@@ -165,6 +168,9 @@
     </ClCompile>
     <ClCompile Include="GradientCheck.cpp">
       <Filter>実験</Filter>
+    </ClCompile>
+    <ClCompile Include="Tanh.cpp">
+      <Filter>ソース ファイル\Layer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

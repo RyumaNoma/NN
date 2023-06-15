@@ -23,7 +23,6 @@ public:
 	void Gradient();
 	void Update();
 
-	// TODO: NN : SerializeŽÀ‘•
 	std::string Serialize() const;
 private:	// loss‚ðŠÜ‚Ü‚È‚¢‘w
 	std::vector<std::shared_ptr<layer::Layer>> layers;

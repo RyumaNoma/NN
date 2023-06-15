@@ -2,7 +2,10 @@
 #include <random>
 #include <iostream>
 class Matrix;
-
+/*
+Xavier: Sigmoid, Tanh
+He    : ReLU
+*/
 class Initializer
 {
 public:
