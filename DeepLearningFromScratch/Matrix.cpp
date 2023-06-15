@@ -237,6 +237,11 @@ Matrix Matrix::HorizontalMin() const
 	return min;
 }
 
+double Matrix::Average() const
+{
+	return Sum() / Size();
+}
+
 Matrix Matrix::operator+(const Matrix& m) const {
 	if (row != m.row || col != m.col) {
 		throw std::runtime_error("[operator +]different shape");
