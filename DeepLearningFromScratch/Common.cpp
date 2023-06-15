@@ -1,6 +1,5 @@
 #include "Common.hpp"
 #include "Matrix.hpp"
-#include "Random.hpp"
 #include "NeuralNetwork.hpp"
 #include <algorithm>
 #include <numeric>
@@ -68,22 +67,31 @@ double Common::mean_squared_error(const Matrix& pred, const Matrix& answer)
 	return 0.5 * mse / pred.Row();
 }
 
-Matrix Common::random_pick(int pickNum, const Matrix& data, Random& rand)
+std::vector<int> Common::random_index(int pickNum, int dataSize, std::mt19937& rand)
 {
-	if (data.Row() <= pickNum) {
-		return data;
-	}
-	std::vector<int> idx(data.Row());
+	std::vector<int> idx(dataSize);
 	std::iota(idx.begin(), idx.end(), 0);
-	rand.Shuffle(idx);
+	if (dataSize <= pickNum) return idx;
 
-	Matrix out(pickNum, data.Col());
-	for (int i = 0; i < pickNum; ++i) {
+	std::shuffle(idx.begin(), idx.end(), rand);
+	idx.resize(pickNum);
+	return idx;
+}
+
+Matrix Common::pick(const Matrix& data, const std::vector<int>& index)
+{
+	Matrix out(index.size(), data.Col());
+	for (int i = 0; i < index.size(); ++i) {
 		for (int j = 0; j < data.Col(); ++j) {
-			out(i, j) = data(idx[i], j);
+			out(i, j) = data(index[i], j);
 		}
 	}
 	return out;
+}
+
+Matrix Common::random_pick(int pickNum, const Matrix& data, std::mt19937& rand)
+{
+	return pick(data, random_index(pickNum, data.Row(), rand));
 }
 
 Matrix Common::numerical_gradient(Matrix& params, NeuralNetwork& nn, const Matrix& in, const Matrix& answer)
