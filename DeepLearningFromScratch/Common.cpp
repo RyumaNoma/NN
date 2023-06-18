@@ -26,7 +26,7 @@ Matrix Common::softmax(const Matrix& m)
 	Matrix sum = out.HorizontalSum();
 	for (int i = 0; i < m.Row(); ++i) {
 		for (int j = 0; j < m.Col(); ++j) {
-			out(i, j) /= sum(0, i);
+			out(i, j) /= sum(i, 0);
 		}
 	}
 
@@ -129,4 +129,10 @@ Matrix Common::onehot(const Matrix& verticalVector, int numClasses)
 		}
 	}
 	return converted;
+}
+
+std::ostream& operator<<(std::ostream& os, const std::tuple<int, int>& t2)
+{
+	os << "(" << std::get<0>(t2) << "," << std::get<1>(t2) << ")";
+	return os;
 }

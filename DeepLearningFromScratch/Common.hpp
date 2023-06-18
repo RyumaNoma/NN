@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include <random>
+#include <iostream>
 #include "Optimizer.hpp"
 
 class Matrix;
@@ -23,3 +24,4 @@ public:
 	static Matrix onehot(const Matrix& verticalVector, int numClasses);
 };
 
+std::ostream& operator << (std::ostream& os, const std::tuple<int, int>& t2);
