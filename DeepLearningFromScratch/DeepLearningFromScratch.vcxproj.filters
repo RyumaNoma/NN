@@ -181,7 +181,7 @@
     <ClCompile Include="Evaluation.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="ForwardCheck.cpp">
+    <ClCompile Include="DistributionCheck.cpp">
       <Filter>実験</Filter>
     </ClCompile>
   </ItemGroup>

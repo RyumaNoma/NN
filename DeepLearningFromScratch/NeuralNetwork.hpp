@@ -24,7 +24,8 @@ public:
 	void Update();
 
 	std::string Serialize() const;
-private:	// loss‚ðŠÜ‚Ü‚È‚¢‘w
+private:
+	// loss‚ðŠÜ‚Ü‚È‚¢‘w
 	std::vector<std::shared_ptr<layer::Layer>> layers;
 	std::shared_ptr<loss_layer::LossLayer> lossLayer;
 };
