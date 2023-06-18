@@ -11,7 +11,7 @@
 class Debug
 {
 public:
-	static const char* FILENAME;
+	static std::string FILENAME;
 
 	// ファイルの内容をリセットする
 	static void Reset();

@@ -2,7 +2,7 @@
 //
 #include "Debug.hpp"
 
-const char* Debug::FILENAME = "./Debug.txt";
+std::string Debug::FILENAME = "./Debug.txt";
 
 void Debug::Reset()
 {
