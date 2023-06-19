@@ -4,6 +4,7 @@
 Matrix::Matrix() noexcept
 	: row(0)
 	, col(0)
+	, capacity(0)
 	, data(nullptr)
 {
 }
@@ -11,33 +12,39 @@ Matrix::Matrix() noexcept
 Matrix::Matrix(int row, int col) noexcept
 	: row(row)
 	, col(col)
+	, capacity(0)
 	, data(nullptr)
 {
 	if (row * col > 0) {
-		data = new double[row * col];
+		capacity = row * col;
+		data = new double[capacity];
 	}
 }
 
 Matrix::Matrix(const ShapeType& shape) noexcept
 	: row(std::get<0>(shape))
 	, col(std::get<1>(shape))
+	, capacity(0)
 	, data(nullptr)
 {
 	if (row * col > 0) {
-		data = new double[row * col];
+		capacity = row * col;
+		data = new double[capacity];
 	}
 }
 
 Matrix::Matrix(const Matrix& m) noexcept
 	: row(m.row)
 	, col(m.col)
+	, capacity(0)
 	, data(nullptr)
 {
 	if (row * col > 0) {
-		data = new double[row * col];
+		capacity = row * col;
+		data = new double[capacity];
 	}
 	if (data) {
-		for (int i = 0; i < row * col; ++i) {
+		for (int i = 0; i < capacity; ++i) {
 			data[i] = m.data[i];
 		}
 	}
@@ -46,13 +53,15 @@ Matrix::Matrix(const Matrix& m) noexcept
 Matrix::Matrix(int row, int col, double const* rawData) noexcept
 	: row(row)
 	, col(col)
+	, capacity(0)
 	, data(nullptr)
 {
 	if (row * col > 0) {
-		data = new double[row * col];
+		capacity = row * col;
+		data = new double[capacity];
 	}
 	if (data) {
-		for (int i = 0; i < row * col; ++i) {
+		for (int i = 0; i < capacity; ++i) {
 			data[i] = rawData[i];
 		}
 	}
@@ -61,13 +70,15 @@ Matrix::Matrix(int row, int col, double const* rawData) noexcept
 Matrix::Matrix(int row, int col, double fill) noexcept
 	: row(row)
 	, col(col)
+	, capacity(0)
 	, data(nullptr)
 {
 	if (row * col > 0) {
-		data = new double[row * col];
+		capacity = row * col;
+		data = new double[capacity];
 	}
 	if (data) {
-		for (int i = 0; i < row * col; i++) {
+		for (int i = 0; i < capacity; i++) {
 			data[i] = fill;
 		}
 	}
@@ -76,13 +87,15 @@ Matrix::Matrix(int row, int col, double fill) noexcept
 Matrix::Matrix(int row, int col, const std::vector<int>& flattenData) noexcept
 	: row(row)
 	, col(col)
+	, capacity(0)
 	, data(nullptr)
 {
 	if (row * col > 0) {
-		data = new double[row * col];
+		capacity = row * col;
+		data = new double[capacity];
 	}
 	if (data) {
-		for (int i = 0; i < row * col; ++i) {
+		for (int i = 0; i < capacity; ++i) {
 			data[i] = flattenData[i];
 		}
 	}
@@ -93,14 +106,22 @@ Matrix::~Matrix() {
 }
 
 void Matrix::Resize(int newRow, int newCol) {
-	if (newRow * newCol <= 0) {
+	int newSize = newRow * newCol;
+	if (newSize <= 0) {
 		throw std::runtime_error("[Resize]not positive size");
 	}
-	delete[] data;
-	data = nullptr;
-	row = newRow;
-	col = newCol;
-	data = new double[newRow * newCol];
+	if (newSize <= capacity) {
+		row = newRow;
+		col = newCol;
+	}
+	else {
+		delete[] data;
+		data = nullptr;
+		row = newRow;
+		col = newCol;
+		capacity = newSize;
+		data = new double[newRow * newCol];
+	}
 }
 
 void Matrix::Reshape(int newRow, int newCol) {
@@ -113,11 +134,7 @@ void Matrix::Reshape(int newRow, int newCol) {
 
 void Matrix::Reshape(const ShapeType& shape)
 {
-	if (std::get<0>(shape) * std::get<1>(shape) != row * col) {
-		throw std::runtime_error("[Reshape]diffrent size");
-	}
-	row = std::get<0>(shape);
-	col = std::get<1>(shape);
+	Reshape(std::get<0>(shape), std::get<1>(shape));
 }
 
 Matrix Matrix::T() const

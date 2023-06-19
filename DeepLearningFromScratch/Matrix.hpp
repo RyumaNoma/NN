@@ -27,6 +27,7 @@ public:
 	int Row() const noexcept { return row; }
 	int Col() const noexcept { return col; }
 	int Size() const noexcept { return row * col; }
+	int Capacity() const noexcept { return capacity; }
 	ShapeType Shape() const noexcept { return ShapeType(row, col); }
 
 	Matrix T() const;
@@ -79,5 +80,6 @@ public:
 private:
 	int row;
 	int col;
+	int capacity;
 	double* data;
 };
