@@ -151,7 +151,7 @@ double Matrix::Sum() const
 
 Matrix Matrix::VerticalSum() const
 {
-	Matrix sum(col, 1, 0.0);
+	Matrix sum(1, col, 0.0);
 	for (int i = 0; i < row; ++i) {
 		for (int j = 0; j < col; ++j) {
 			sum(j) += data[i * col + j];
@@ -194,7 +194,7 @@ Matrix Matrix::VerticalMax() const
 
 Matrix Matrix::HorizontalMax() const
 {
-	Matrix max(1, row);
+	Matrix max(row, 1);
 	for (int i = 0; i < row; ++i) {
 		max(i) = data[i * col + 0];
 		for (int j = 0; j < col; ++j) {
@@ -227,7 +227,7 @@ Matrix Matrix::VerticalMin() const
 
 Matrix Matrix::HorizontalMin() const
 {
-	Matrix min(1, row);
+	Matrix min(row, 1);
 	for (int i = 0; i < row; ++i) {
 		min(i) = data[i * col + 0];
 		for (int j = 0; j < col; ++j) {

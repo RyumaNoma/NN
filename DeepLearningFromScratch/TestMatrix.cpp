@@ -158,7 +158,7 @@ void TestMatrix::Sum()
 	double ans0[3] = { 5, 7, 9 };
 	double ans1[2] = { 6, 15 };
 	Matrix a(2, 3, data);
-	Matrix a0(3, 1, ans0);
+	Matrix a0(1, 3, ans0);
 	Matrix a1(2, 1, ans1);
 
 	assert(a.Sum() == 21);
@@ -176,7 +176,7 @@ void TestMatrix::Max()
 
 	Matrix a(2, 3, data);
 	Matrix ansV(1, 3, dataV);
-	Matrix ansH(1, 2, dataH);
+	Matrix ansH(2, 1, dataH);
 
 	assert(a.Max() == 6);
 	assert(a.VerticalMax().Shape() == ansV.Shape());
@@ -194,7 +194,7 @@ void TestMatrix::Min()
 
 	Matrix a(2, 3, data);
 	Matrix ansV(1, 3, dataV);
-	Matrix ansH(1, 2, dataH);
+	Matrix ansH(2, 1, dataH);
 
 	assert(a.Min() == 1);
 	assert(a.VerticalMin().Shape() == ansV.Shape());

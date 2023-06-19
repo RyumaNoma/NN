@@ -4,6 +4,7 @@
 #include <tuple>
 
 // *演算子はアダマール積
+// TODO: matrixをサイズ固定にするかを決める
 class Matrix {
 public:
 	using ShapeType = std::tuple<int, int>;
@@ -18,6 +19,7 @@ public:
 
 	// ATTENTION: 必ず元のデータの削除と新しい領域の確保を行う
 	// 元のデータも残らない
+	// TODO: vectorのresizeと同じような実装
 	void Resize(int newRow, int newCol);
 	void Reshape(int newRow, int newCol);
 	void Reshape(const ShapeType& shape);
@@ -31,6 +33,7 @@ public:
 	Matrix Flatten() const;
 
 	double Sum() const;
+	// TODO: 向きの変更
 	Matrix VerticalSum() const;
 	Matrix HorizontalSum() const;
 

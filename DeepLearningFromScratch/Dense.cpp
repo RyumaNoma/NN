@@ -42,7 +42,7 @@ namespace layer {
 	{
 		Matrix dInput = Matrix::Dot(dout, weight.T());
 		dWeight = Matrix::Dot(input.T(), dout);
-		dBias = dout.VerticalSum().T();
+		dBias = dout.VerticalSum();
 		return dInput;
 	}
 	void Dense::Update()
