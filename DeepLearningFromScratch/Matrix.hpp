@@ -12,6 +12,7 @@ public:
 	Matrix(int row, int col) noexcept;
 	Matrix(const ShapeType& shape) noexcept;
 	Matrix(const Matrix& m) noexcept;
+	Matrix(Matrix&& m) noexcept;
 	Matrix(int row, int col, double const* rawData) noexcept;
 	Matrix(int row, int col, double fill) noexcept;
 	Matrix(int row, int col, const std::vector<int>& flattenData) noexcept;
@@ -54,10 +55,6 @@ public:
 	inline double* end() const { return data + (row * col); }
 	inline double* cbegin(int row) const { return data + (row * this->col); }
 	inline double* cend(int row) const { return data + (row * this->col + this->col); }
-	//double const* begin() const { return data; }
-	//double const* end() const { return data + (row * col); }
-	//double const* cbegin(int row) const { return data + (row * this->col); }
-	//double const* cend(int row) const { return data + (row * this->col + this->col); }
 
 	Matrix operator + (const Matrix& m) const;
 	friend Matrix operator + (double d, const Matrix& m);
@@ -78,6 +75,7 @@ public:
 	static Matrix Dot(const Matrix& left, const Matrix& right);
 
 	Matrix& operator = (const Matrix& m);
+	Matrix& operator = (Matrix&& m) noexcept;
 	Matrix& operator += (const Matrix& m);
 	Matrix& operator -= (const Matrix& m);
 	Matrix& operator *= (const Matrix& m);

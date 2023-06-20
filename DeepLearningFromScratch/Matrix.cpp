@@ -50,6 +50,15 @@ Matrix::Matrix(const Matrix& m) noexcept
 	}
 }
 
+Matrix::Matrix(Matrix&& m) noexcept
+	: row(m.row)
+	, col(m.col)
+	, capacity(m.capacity)
+	, data(m.data)
+{
+	m.data = nullptr;
+}
+
 Matrix::Matrix(int row, int col, double const* rawData) noexcept
 	: row(row)
 	, col(col)
@@ -379,6 +388,17 @@ Matrix& Matrix::operator=(const Matrix& m) {
 	}
 	std::copy(m.begin(), m.end(), data);
 	return *this;
+}
+
+Matrix& Matrix::operator=(Matrix&& m) noexcept
+{
+	delete[] data;
+	data = m.data;
+	row = m.row;
+	col = m.col;
+	capacity = m.capacity;
+
+	m.data = nullptr;
 }
 
 Matrix& Matrix::operator+=(const Matrix& m) {
