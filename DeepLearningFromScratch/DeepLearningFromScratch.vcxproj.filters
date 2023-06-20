@@ -185,4 +185,9 @@
       <Filter>実験</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="レポート20230620-1200.diagsession">
+      <Filter>リソース ファイル</Filter>
+    </None>
+  </ItemGroup>
 </Project>

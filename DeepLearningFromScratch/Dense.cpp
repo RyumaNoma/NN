@@ -24,6 +24,7 @@ namespace layer {
 		Initializer::Initialize(weight, initializeRandomEngine, initializeType);
 	}
 
+	// TODO: BroadCast‚ğ‚µ‚È‚¢‚æ‚¤‚É‰‰Zq‚ğì‚é
 	Matrix Dense::Forward(const Matrix& in)
 	{
 		this->input = in;
