@@ -442,20 +442,6 @@ bool Matrix::operator!=(const Matrix& m) const noexcept {
 	return !(*this == m);
 }
 
-double& Matrix::operator()(int i) const {
-	if (i >= Size()) {
-		throw std::runtime_error("[operator (i)]out of data");
-	}
-	return data[i];
-}
-
-double& Matrix::operator()(int i, int j) const {
-	if (i * col + j >= Size()) {
-		throw std::runtime_error("[operator (i,j)]out of data");
-	}
-	return data[i * col + j];
-}
-
 std::ostream& operator<<(std::ostream& os, const Matrix& m) {
 	os << "{\n";
 	for (int i = 0; i < m.row; ++i) {

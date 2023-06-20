@@ -62,15 +62,19 @@ public:
 	Matrix operator + (const Matrix& m) const;
 	friend Matrix operator + (double d, const Matrix& m);
 	Matrix operator + (double d) const;
+
 	Matrix operator - (const Matrix& m) const;
 	Matrix operator - (double d) const;
 	friend Matrix operator - (double d, const Matrix& m);
+
 	Matrix operator * (const Matrix& m) const;
 	Matrix operator * (double coef) const;
 	friend Matrix operator * (double coef, const Matrix& m);
+
 	Matrix operator / (const Matrix& m) const;
 	Matrix operator / (double coef) const;
 	friend Matrix operator / (double d, const Matrix& m);
+
 	static Matrix Dot(const Matrix& left, const Matrix& right);
 
 	Matrix& operator = (const Matrix& m);
@@ -82,8 +86,18 @@ public:
 	Matrix& operator /= (double coef);
 	bool operator == (const Matrix& m) const noexcept;
 	bool operator != (const Matrix& m) const noexcept;
-	double& operator () (int i) const;
-	double& operator () (int i, int j) const;
+	inline double& operator () (int i) const {
+		if (i >= Size()) {
+			throw std::runtime_error("[operator (i)]out of data");
+		}
+		return data[i];
+	}
+	inline double& operator () (int i, int j) const {
+		if (i * col + j >= Size()) {
+			throw std::runtime_error("[operator (i,j)]out of data");
+		}
+		return data[i * col + j];
+	}
 	friend std::ostream& operator << (std::ostream& os, const Matrix& m);
 	friend class TestMatrix;
 private:
