@@ -34,16 +34,15 @@ namespace layer {
 				broadcastBias(i, j) = bias(0, j);
 			}
 		}
-		Matrix out;
-		out = Matrix::Dot(in, weight) + broadcastBias;
+		Matrix out = Matrix::Dot(in, weight) + broadcastBias;
 		return out;
 	}
 
 	Matrix Dense::Backward(const Matrix& dout)
 	{
 		Matrix dInput = Matrix::Dot(dout, weight.T());
-		dWeight = Matrix::Dot(input.T(), dout);
-		dBias = dout.VerticalSum();
+		dWeight = std::move(Matrix::Dot(input.T(), dout));
+		dBias = std::move(dout.VerticalSum());
 		return dInput;
 	}
 	void Dense::Update()

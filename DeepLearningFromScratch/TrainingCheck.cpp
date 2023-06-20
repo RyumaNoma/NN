@@ -118,8 +118,8 @@ int main(int argc, char* argv[]) {
     Timer t;
     for (int iter = 0; iter < MAX_ITERATIONS; ++iter) {
         std::vector<int> index = Common::random_index(BATCH, SAMPLES, engine);
-        auto in = Common::pick(input, index);
-        auto ans = Common::pick(answer, index);
+        Matrix in = Common::pick(input, index);
+        Matrix ans = Common::pick(answer, index);
 
         double loss = model.Fit(in, ans);
 

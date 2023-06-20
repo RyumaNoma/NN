@@ -397,8 +397,8 @@ Matrix& Matrix::operator=(Matrix&& m) noexcept
 	row = m.row;
 	col = m.col;
 	capacity = m.capacity;
-
 	m.data = nullptr;
+	return *this;
 }
 
 Matrix& Matrix::operator+=(const Matrix& m) {
