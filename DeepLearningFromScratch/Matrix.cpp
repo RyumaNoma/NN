@@ -262,7 +262,8 @@ Matrix operator+(double d, const Matrix& m)
 Matrix Matrix::operator+(double d) const
 {
 	Matrix result(row, col);
-	for (int i = 0; i < row * col; ++i) {
+	int size = row * col;
+	for (int i = 0; i < size; ++i) {
 		result.data[i] = this->data[i] + d;
 	}
 	return result;
@@ -273,7 +274,8 @@ Matrix Matrix::operator-(const Matrix& m) const {
 		throw std::runtime_error("[operator -]different shape");
 	}
 	Matrix result(row, col);
-	for (int i = 0; i < row * col; ++i) {
+	int size = row * col;
+	for (int i = 0; i < size; ++i) {
 		result.data[i] = this->data[i] - m.data[i];
 	}
 	return result;
@@ -282,7 +284,8 @@ Matrix Matrix::operator-(const Matrix& m) const {
 Matrix operator-(double d, const Matrix& m)
 {
 	Matrix result(m.row, m.col);
-	for (int i = 0; i < m.row * m.col; ++i) {
+	int size = m.row * m.col;
+	for (int i = 0; i < size; ++i) {
 		result.data[i] = d - m.data[i];
 	}
 	return result;
@@ -291,7 +294,8 @@ Matrix operator-(double d, const Matrix& m)
 Matrix Matrix::operator-(double d) const
 {
 	Matrix result(row, col);
-	for (int i = 0; i < row * col; ++i) {
+	int size = row * col;
+	for (int i = 0; i < size; ++i) {
 		result.data[i] = this->data[i] - d;
 	}
 	return result;
@@ -302,7 +306,8 @@ Matrix Matrix::operator*(const Matrix& m) const {
 		throw std::runtime_error("[operator *]different shape");
 	}
 	Matrix result(row, col);
-	for (int i = 0; i < row * col; ++i) {
+	int size = row * col;
+	for (int i = 0; i < size; ++i) {
 		result.data[i] = this->data[i] * m.data[i];
 	}
 	return result;
@@ -310,7 +315,8 @@ Matrix Matrix::operator*(const Matrix& m) const {
 
 Matrix Matrix::operator*(double coef) const {
 	Matrix result(row, col);
-	for (int i = 0; i < row * col; ++i) {
+	int size = row * col;
+	for (int i = 0; i < size; ++i) {
 		result.data[i] = this->data[i] * coef;
 	}
 	return result;
@@ -341,7 +347,8 @@ Matrix Matrix::operator/(const Matrix& m) const
 		throw std::runtime_error("[operator /]different shape");
 	}
 	Matrix result(row, col);
-	for (int i = 0; i < row * col; ++i) {
+	int size = row * col;
+	for (int i = 0; i < size; ++i) {
 		result.data[i] = this->data[i] / m.data[i];
 	}
 	return result;
@@ -349,7 +356,8 @@ Matrix Matrix::operator/(const Matrix& m) const
 
 Matrix Matrix::operator/(double coef) const {
 	Matrix result(row, col);
-	for (int i = 0; i < row * col; ++i) {
+	int size = row * col;
+	for (int i = 0; i < size; ++i) {
 		result.data[i] = this->data[i] / coef;
 	}
 	return result;
@@ -358,7 +366,8 @@ Matrix Matrix::operator/(double coef) const {
 Matrix operator/(double d, const Matrix& m)
 {
 	Matrix result(m.row, m.col);
-	for (int i = 0; i < m.row * m.col; ++i) {
+	int size = m.row * m.col;
+	for (int i = 0; i < size; ++i) {
 		result.data[i] = d / m.data[i];
 	}
 	return result;
@@ -376,7 +385,8 @@ Matrix& Matrix::operator+=(const Matrix& m) {
 	if (row != m.row || col != m.col) {
 		throw std::runtime_error("[operator +=]different shape");
 	}
-	for (int i = 0; i < row * col; ++i) {
+	int size = row * col;
+	for (int i = 0; i < size; ++i) {
 		this->data[i] += m.data[i];
 	}
 	return *this;
@@ -386,7 +396,8 @@ Matrix& Matrix::operator-=(const Matrix& m) {
 	if (row != m.row || col != m.col) {
 		throw std::runtime_error("[operator -=]different shape");
 	}
-	for (int i = 0; i < row * col; ++i) {
+	int size = row * col;
+	for (int i = 0; i < size; ++i) {
 		this->data[i] -= m.data[i];
 	}
 	return *this;
@@ -396,7 +407,8 @@ Matrix& Matrix::operator*=(const Matrix& m) {
 	if (row != m.row || col != m.col) {
 		throw std::runtime_error("[operator *=]different shape");
 	}
-	for (int i = 0; i < row * col; ++i) {
+	int size = row * col;
+	for (int i = 0; i < size; ++i) {
 		this->data[i] *= m.data[i];
 	}
 	return *this;
@@ -415,7 +427,8 @@ Matrix& Matrix::operator/=(const Matrix& m)
 	if (row != m.row || col != m.col) {
 		throw std::runtime_error("[operator /=]different shape");
 	}
-	for (int i = 0; i < row * col; ++i) {
+	int size = row * col;
+	for (int i = 0; i < size; ++i) {
 		this->data[i] /= m.data[i];
 	}
 	return *this;
@@ -432,7 +445,8 @@ Matrix& Matrix::operator/=(double coef)
 bool Matrix::operator==(const Matrix& m) const noexcept {
 	if (row != m.row) return false;
 	if (col != m.col) return false;
-	for (int i = 0; i < row * col; ++i) {
+	int size = row * col;
+	for (int i = 0; i < size; ++i) {
 		if (this->data[i] != m.data[i]) return false;
 	}
 	return true;
