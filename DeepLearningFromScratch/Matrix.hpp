@@ -50,10 +50,10 @@ public:
 
 	friend Matrix Abs(const Matrix& m);
 
-	double* begin() const { return data; }
-	double* end() const { return data + (row * col); }
-	double* cbegin(int row) const { return data + (row * this->col); }
-	double* cend(int row) const { return data + (row * this->col + this->col); }
+	inline double* begin() const { return data; }
+	inline double* end() const { return data + (row * col); }
+	inline double* cbegin(int row) const { return data + (row * this->col); }
+	inline double* cend(int row) const { return data + (row * this->col + this->col); }
 	//double const* begin() const { return data; }
 	//double const* end() const { return data + (row * col); }
 	//double const* cbegin(int row) const { return data + (row * this->col); }

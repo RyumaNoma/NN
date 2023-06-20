@@ -46,7 +46,7 @@ Matrix::Matrix(const Matrix& m) noexcept
 		data = new double[capacity];
 	}
 	if (data) {
-		std::copy(m.data, m.data + capacity, data);
+		std::copy(m.begin(), m.end(), this->begin());
 	}
 }
 
@@ -76,7 +76,7 @@ Matrix::Matrix(int row, int col, double fill) noexcept
 		data = new double[capacity];
 	}
 	if (data) {
-		std::fill(data, data + capacity, fill);
+		std::fill(begin(), end(), fill);
 	}
 }
 
@@ -91,7 +91,7 @@ Matrix::Matrix(int row, int col, const std::vector<int>& flattenData) noexcept
 		data = new double[capacity];
 	}
 	if (data) {
-		std::copy(flattenData.begin(), flattenData.end(), data);
+		std::copy(flattenData.begin(), flattenData.end(), this->begin());
 	}
 }
 
@@ -145,7 +145,7 @@ Matrix Matrix::T() const
 Matrix Matrix::Flatten() const
 {
 	Matrix out(1, row * col);
-	std::copy(data, data + (row * col), out.data);
+	std::copy(begin(), end(), out.data);
 	return out;
 }
 
@@ -176,7 +176,7 @@ Matrix Matrix::HorizontalSum() const
 
 double Matrix::Max() const
 {
-	return *std::max_element(data, data + (row * col));
+	return *std::max_element(begin(), end());
 }
 
 Matrix Matrix::VerticalMax() const
@@ -202,7 +202,7 @@ Matrix Matrix::HorizontalMax() const
 
 double Matrix::Min() const
 {
-	return *std::min_element(data, data + (row * col));
+	return *std::min_element(begin(), end());
 }
 
 Matrix Matrix::VerticalMin() const
@@ -368,7 +368,7 @@ Matrix& Matrix::operator=(const Matrix& m) {
 	if (row != m.row || col != m.col) {
 		Resize(m.row, m.col);
 	}
-	std::copy(m.data, m.data + row * col, data);
+	std::copy(m.begin(), m.end(), data);
 	return *this;
 }
 
