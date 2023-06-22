@@ -31,25 +31,25 @@ public:
 	int Capacity() const noexcept { return capacity; }
 	ShapeType Shape() const noexcept { return ShapeType(row, col); }
 
-	Matrix T() const;
-	Matrix Flatten() const;
+	Matrix T() const noexcept;
+	Matrix Flatten() const noexcept;
 
-	double Sum() const;
+	double Sum() const noexcept;
 	// TODO: å¸Ç´ÇÃïœçX
-	Matrix VerticalSum() const;
-	Matrix HorizontalSum() const;
+	Matrix VerticalSum() const noexcept;
+	Matrix HorizontalSum() const noexcept;
 
-	double Max() const;
-	Matrix VerticalMax() const;
-	Matrix HorizontalMax() const;
+	double Max() const noexcept;
+	Matrix VerticalMax() const noexcept;
+	Matrix HorizontalMax() const noexcept;
 
-	double Min() const;
-	Matrix VerticalMin() const;
-	Matrix HorizontalMin() const;
+	double Min() const noexcept;
+	Matrix VerticalMin() const noexcept;
+	Matrix HorizontalMin() const noexcept;
 
-	double Average() const;
+	double Average() const noexcept;
 
-	friend Matrix Abs(const Matrix& m);
+	friend Matrix Abs(const Matrix& m) noexcept;
 
 	inline double* begin() const { return data; }
 	inline double* end() const { return data + (row * col); }

@@ -140,7 +140,7 @@ void Matrix::Reshape(const ShapeType& shape)
 	Reshape(std::get<0>(shape), std::get<1>(shape));
 }
 
-Matrix Matrix::T() const
+Matrix Matrix::T() const noexcept
 {
 	Matrix out(col, row);
 	for (int i = 0; i < row; ++i) {
@@ -151,19 +151,19 @@ Matrix Matrix::T() const
 	return out;
 }
 
-Matrix Matrix::Flatten() const
+Matrix Matrix::Flatten() const noexcept
 {
 	Matrix out(1, row * col);
 	std::copy(begin(), end(), out.data);
 	return out;
 }
 
-double Matrix::Sum() const
+double Matrix::Sum() const noexcept
 {
 	return std::accumulate(begin(), end(), 0.0);
 }
 
-Matrix Matrix::VerticalSum() const
+Matrix Matrix::VerticalSum() const noexcept
 {
 	Matrix sum(1, col, 0.0);
 	for (int i = 0; i < row; ++i) {
@@ -174,7 +174,7 @@ Matrix Matrix::VerticalSum() const
 	return sum;
 }
 
-Matrix Matrix::HorizontalSum() const
+Matrix Matrix::HorizontalSum() const noexcept
 {
 	Matrix sum(row, 1, 0.0);
 	for (int i = 0; i < row; ++i) {
@@ -183,12 +183,12 @@ Matrix Matrix::HorizontalSum() const
 	return sum;
 }
 
-double Matrix::Max() const
+double Matrix::Max() const noexcept
 {
 	return *std::max_element(begin(), end());
 }
 
-Matrix Matrix::VerticalMax() const
+Matrix Matrix::VerticalMax() const noexcept
 {
 	Matrix max(1, col);
 	for (int j = 0; j < col; ++j) {
@@ -200,7 +200,7 @@ Matrix Matrix::VerticalMax() const
 	return max;
 }
 
-Matrix Matrix::HorizontalMax() const
+Matrix Matrix::HorizontalMax() const noexcept
 {
 	Matrix max(row, 1);
 	for (int i = 0; i < row; ++i) {
@@ -209,12 +209,12 @@ Matrix Matrix::HorizontalMax() const
 	return max;
 }
 
-double Matrix::Min() const
+double Matrix::Min() const noexcept
 {
 	return *std::min_element(begin(), end());
 }
 
-Matrix Matrix::VerticalMin() const
+Matrix Matrix::VerticalMin() const noexcept
 {
 	Matrix min(1, col);
 	for (int j = 0; j < col; ++j) {
@@ -226,7 +226,7 @@ Matrix Matrix::VerticalMin() const
 	return min;
 }
 
-Matrix Matrix::HorizontalMin() const
+Matrix Matrix::HorizontalMin() const noexcept
 {
 	Matrix min(row, 1);
 	for (int i = 0; i < row; ++i) {
@@ -238,7 +238,7 @@ Matrix Matrix::HorizontalMin() const
 	return min;
 }
 
-double Matrix::Average() const
+double Matrix::Average() const noexcept
 {
 	return Sum() / Size();
 }
@@ -254,7 +254,7 @@ Matrix Matrix::operator+(const Matrix& m) const {
 	return result;
 }
 
-Matrix Abs(const Matrix& m)
+Matrix Abs(const Matrix& m) noexcept
 {
 	Matrix out(m.Shape());
 	for (int i = 0; i < m.Size(); ++i) {
