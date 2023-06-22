@@ -28,13 +28,12 @@ namespace layer {
 	Matrix Dense::Forward(const Matrix& in)
 	{
 		this->input = in;
-		Matrix broadcastBias(in.Row(), bias.Col());
-		for (int i = 0; i < broadcastBias.Row(); ++i) {
-			for (int j = 0; j < broadcastBias.Col(); ++j) {
-				broadcastBias(i, j) = bias(0, j);
+		Matrix out = Matrix::Dot(in, weight);
+		for (int i = 0; i < out.Row(); ++i) {
+			for (int j = 0; j < out.Col(); ++j) {
+				out(i, j) += bias(0, j);
 			}
 		}
-		Matrix out = Matrix::Dot(in, weight) + broadcastBias;
 		return out;
 	}
 
