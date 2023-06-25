@@ -4,9 +4,9 @@
 
 namespace layer {
 	Dense::Dense(
-		int inputSize,
-		int outputSize,
-		Initializer::Type initializeType,
+		const int inputSize,
+		const int outputSize,
+		const Initializer::Type initializeType,
 		std::mt19937& initializeRandomEngine,
 		std::shared_ptr<optimizer::Optimizer> optWeight,
 		std::shared_ptr<optimizer::Optimizer> optBias,
@@ -40,8 +40,8 @@ namespace layer {
 	Matrix Dense::Backward(const Matrix& dout)
 	{
 		Matrix dInput = Matrix::Dot(dout, weight.T());
-		dWeight = std::move(Matrix::Dot(input.T(), dout));
-		dBias = std::move(dout.VerticalSum());
+		dWeight = Matrix::Dot(input.T(), dout);
+		dBias = dout.VerticalSum();
 		return dInput;
 	}
 	void Dense::Update()
