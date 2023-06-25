@@ -70,6 +70,7 @@ public:
 	friend Matrix operator / (const double d, const Matrix& m);
 
 	static Matrix Dot(const Matrix& lhs, const Matrix& rhs);
+	static void Dot(const Matrix& lhs, const Matrix& rhs, Matrix& result);
 
 	Matrix& operator = (const Matrix& m) noexcept;
 	Matrix& operator = (Matrix&& m) noexcept;

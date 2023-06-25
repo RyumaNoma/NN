@@ -385,6 +385,20 @@ Matrix Matrix::Dot(const Matrix& lhs, const Matrix& rhs) {
 	return result;
 }
 
+void Matrix::Dot(const Matrix& lhs, const Matrix& rhs, Matrix& result) {
+	if (lhs.col != rhs.row) {
+		throw std::runtime_error("[Dot]not match shape");
+	}
+	const Matrix rhsT = rhs.T();
+	result.Resize(lhs.row, rhsT.row);
+	for (int i = 0; i < lhs.row; ++i) {
+		for (int j = 0; j < rhsT.row; ++j) {
+			result.data[i * rhsT.row + j] =
+				std::inner_product(lhs.cbegin(i), lhs.cend(i), rhsT.cbegin(j), 0.0);
+		}
+	}
+}
+
 Matrix& Matrix::operator=(const Matrix& m) noexcept {
 	if (row != m.row || col != m.col) {
 		Resize(m.row, m.col);
