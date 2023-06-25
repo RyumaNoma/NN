@@ -11,9 +11,9 @@ class Common
 {
 public:
 	// Šˆ«‰»ŠÖ”
-	static double relu(double d) noexcept;
-	static double sigmoid(double d) noexcept;
-	static Matrix softmax(const Matrix& m);
+	static double relu(const double d) noexcept;
+	static double sigmoid(const double d) noexcept;
+	static void softmax(Matrix& m);
 	// answer‚Íonehot•\Œ»
 	static double cross_entropy_error(const Matrix& pred, const Matrix& answer);
 	static double mean_squared_error(const Matrix& pred, const Matrix& answer);

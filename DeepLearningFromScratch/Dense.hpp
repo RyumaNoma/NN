@@ -11,9 +11,9 @@ namespace layer {
 	{
 	public:
 		Dense(
-			int inputSize,
-			int outputSize,
-			Initializer::Type initializeType,
+			const int inputSize,
+			const int outputSize,
+			const Initializer::Type initializeType,
 			std::mt19937& initializeRandomEngine,
 			std::shared_ptr<optimizer::Optimizer> optWeight,
 			std::shared_ptr<optimizer::Optimizer> optBias,

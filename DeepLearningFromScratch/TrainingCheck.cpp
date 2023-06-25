@@ -3,6 +3,7 @@
 #include "Common.hpp"
 #include "Debug.hpp"
 #include "Evaluation.hpp"
+#include "Timer.hpp"
 // layer
 #include "Dense.hpp"
 #include "ReLU.hpp"
@@ -10,10 +11,10 @@
 // optimizer
 #include "SGD.hpp"
 #include "mnist/mnist_reader.hpp"
-#define MNIST_DATA_LOCATION "./mnist/dataDigit/"
+#define MNIST_DATA_LOCATION "./mnist/dataFashion/"
 #define SAMPLES 60000
 #define BATCH 128
-#define MAX_ITERATIONS 2000
+#define MAX_ITERATIONS 201
 //#define EPOCH 200
 
 int main(int argc, char* argv[]) {
@@ -114,20 +115,19 @@ int main(int argc, char* argv[]) {
     model.Add(dense5);
     model.SetLossLayer(scee);
     std::cerr << "built model" << std::endl;
-
+    Timer t;
     for (int iter = 0; iter < MAX_ITERATIONS; ++iter) {
         std::vector<int> index = Common::random_index(BATCH, SAMPLES, engine);
-        auto in = Common::pick(input, index);
-        auto ans = Common::pick(answer, index);
+        Matrix in = Common::pick(input, index);
+        Matrix ans = Common::pick(answer, index);
 
-        double loss = model.Inference(in, ans);
-        model.Gradient();
-        model.Update();
+        double loss = model.Fit(in, ans);
 
         if (iter % 100 == 0) {
             printf("[%4d]: %lf\n", iter, loss);
         }
     }
+    std::cout << t.ElapsedMilliseconds() << "[ms]" << std::endl;
     //Debug::Reset();
     //Debug::Print(model.Serialize());
 

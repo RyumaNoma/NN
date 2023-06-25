@@ -4,7 +4,7 @@
 
 Matrix layer::Sigmoid::Forward(const Matrix& in)
 {
-	this->out.Reshape(in.Shape());
+	this->out.Reshape(in.Shape());//bug
 	for (int i = 0; i < out.Size(); ++i) {
 		this->out(i) = Common::sigmoid(in(i));
 	}

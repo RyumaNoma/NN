@@ -1,90 +1,106 @@
 #include "Matrix.hpp"
 #include <stdexcept>
+#include <algorithm>
+#include <numeric>
 
 Matrix::Matrix() noexcept
 	: row(0)
 	, col(0)
+	, capacity(0)
 	, data(nullptr)
 {
 }
 
-Matrix::Matrix(int row, int col) noexcept
+Matrix::Matrix(const int row, const int col) noexcept
 	: row(row)
 	, col(col)
+	, capacity(0)
 	, data(nullptr)
 {
 	if (row * col > 0) {
-		data = new double[row * col];
+		capacity = row * col;
+		data = new double[capacity];
 	}
 }
 
 Matrix::Matrix(const ShapeType& shape) noexcept
 	: row(std::get<0>(shape))
 	, col(std::get<1>(shape))
+	, capacity(0)
 	, data(nullptr)
 {
 	if (row * col > 0) {
-		data = new double[row * col];
+		capacity = row * col;
+		data = new double[capacity];
 	}
 }
 
 Matrix::Matrix(const Matrix& m) noexcept
 	: row(m.row)
 	, col(m.col)
+	, capacity(0)
 	, data(nullptr)
 {
 	if (row * col > 0) {
-		data = new double[row * col];
+		capacity = row * col;
+		data = new double[capacity];
 	}
 	if (data) {
-		for (int i = 0; i < row * col; ++i) {
-			data[i] = m.data[i];
-		}
+		std::copy(m.begin(), m.end(), this->begin());
 	}
 }
 
-Matrix::Matrix(int row, int col, double const* rawData) noexcept
+Matrix::Matrix(Matrix&& m) noexcept
+	: row(m.row)
+	, col(m.col)
+	, capacity(m.capacity)
+	, data(m.data)
+{
+	m.data = nullptr;
+}
+
+Matrix::Matrix(const int row, const int col, double const* rawData) noexcept
 	: row(row)
 	, col(col)
+	, capacity(0)
 	, data(nullptr)
 {
 	if (row * col > 0) {
-		data = new double[row * col];
+		capacity = row * col;
+		data = new double[capacity];
 	}
 	if (data) {
-		for (int i = 0; i < row * col; ++i) {
-			data[i] = rawData[i];
-		}
+		std::copy(rawData, rawData + capacity, data);
 	}
 }
 
-Matrix::Matrix(int row, int col, double fill) noexcept
+Matrix::Matrix(const int row, const int col, double fill) noexcept
 	: row(row)
 	, col(col)
+	, capacity(0)
 	, data(nullptr)
 {
 	if (row * col > 0) {
-		data = new double[row * col];
+		capacity = row * col;
+		data = new double[capacity];
 	}
 	if (data) {
-		for (int i = 0; i < row * col; i++) {
-			data[i] = fill;
-		}
+		std::fill(begin(), end(), fill);
 	}
 }
 
-Matrix::Matrix(int row, int col, const std::vector<int>& flattenData) noexcept
+Matrix::Matrix(const int row, const int col, const std::vector<int>& flattenData) noexcept
 	: row(row)
 	, col(col)
+	, capacity(0)
 	, data(nullptr)
 {
 	if (row * col > 0) {
-		data = new double[row * col];
+		capacity = row * col;
+		data = new double[capacity];
 	}
 	if (data) {
-		for (int i = 0; i < row * col; ++i) {
-			data[i] = flattenData[i];
-		}
+		std::copy(flattenData.begin(), flattenData.end(), this->begin());
 	}
 }
 
@@ -92,19 +108,27 @@ Matrix::~Matrix() {
 	delete[] data;
 }
 
-void Matrix::Resize(int newRow, int newCol) {
-	if (newRow * newCol <= 0) {
+void Matrix::Resize(const int newRow, const int newCol) {
+	const int newSize = newRow * newCol;
+	if (newSize <= 0) {
 		throw std::runtime_error("[Resize]not positive size");
 	}
-	delete[] data;
-	data = nullptr;
-	row = newRow;
-	col = newCol;
-	data = new double[newRow * newCol];
+	if (newSize <= capacity) {
+		row = newRow;
+		col = newCol;
+	}
+	else {
+		delete[] data;
+		data = nullptr;
+		row = newRow;
+		col = newCol;
+		capacity = newSize;
+		data = new double[capacity];
+	}
 }
 
-void Matrix::Reshape(int newRow, int newCol) {
-	if (newRow * newCol != row * col) {
+void Matrix::Reshape(const int newRow, const int newCol) {
+	if (newRow * newCol != capacity) {
 		throw std::runtime_error("[Reshape]diffrent size");
 	}
 	row = newRow;
@@ -113,273 +137,284 @@ void Matrix::Reshape(int newRow, int newCol) {
 
 void Matrix::Reshape(const ShapeType& shape)
 {
-	if (std::get<0>(shape) * std::get<1>(shape) != row * col) {
-		throw std::runtime_error("[Reshape]diffrent size");
-	}
-	row = std::get<0>(shape);
-	col = std::get<1>(shape);
+	Reshape(std::get<0>(shape), std::get<1>(shape));
 }
 
-Matrix Matrix::T() const
+Matrix Matrix::T() const noexcept
 {
 	Matrix out(col, row);
 	for (int i = 0; i < row; ++i) {
 		for (int j = 0; j < col; ++j) {
-			out(j, i) = data[i * col + j];
+			out.data[j * row + i] = data[i * col + j];
 		}
 	}
 	return out;
 }
 
-Matrix Matrix::Flatten() const
+Matrix Matrix::Flatten() const noexcept
 {
 	Matrix out(1, row * col);
-	for (int i = 0; i < row * col; ++i) {
-		out(i) = data[i];
-	}
+	std::copy(begin(), end(), out.data);
 	return out;
 }
 
-double Matrix::Sum() const
+double Matrix::Sum() const noexcept
 {
-	double sum = 0;
-	for (int i = 0; i < row * col; ++i) {
-		sum += data[i];
-	}
-	return sum;
+	return std::accumulate(begin(), end(), 0.0);
 }
 
-Matrix Matrix::VerticalSum() const
+Matrix Matrix::VerticalSum() const noexcept
 {
-	Matrix sum(col, 1, 0.0);
+	Matrix sum(1, col, 0.0);
 	for (int i = 0; i < row; ++i) {
 		for (int j = 0; j < col; ++j) {
-			sum(j) += data[i * col + j];
+			sum.data[j] += data[i * col + j];
 		}
 	}
 	return sum;
 }
 
-Matrix Matrix::HorizontalSum() const
+Matrix Matrix::HorizontalSum() const noexcept
 {
-	Matrix sum(row, 1, 0.0);
+	Matrix sum(row, 1);
 	for (int i = 0; i < row; ++i) {
-		for (int j = 0; j < col; ++j) {
-			sum(i) += data[i * col + j];
-		}
+		sum.data[i] = std::accumulate(cbegin(i), cend(i), 0.0);
 	}
 	return sum;
 }
 
-double Matrix::Max() const
+double Matrix::Max() const noexcept
 {
-	double max = data[0];
-	for (int i = 0; i < row * col; ++i) {
-		max = std::max(max, data[i]);
-	}
-	return max;
+	return *std::max_element(begin(), end());
 }
 
-Matrix Matrix::VerticalMax() const
+Matrix Matrix::VerticalMax() const noexcept
 {
 	Matrix max(1, col);
 	for (int j = 0; j < col; ++j) {
-		max(j) = data[j];
-		for (int i = 0; i < row; ++i) {
-			max(j) = std::max(max(j), data[i * col + j]);
+		double* maxIter = data + j;
+		for (int i = 1; i < row; ++i) {
+			if (data[i * col + j] > *maxIter) {
+				maxIter = data + (i * col + j);
+			}
 		}
+		max.data[j] = *maxIter;
 	}
 	return max;
 }
 
-Matrix Matrix::HorizontalMax() const
+Matrix Matrix::HorizontalMax() const noexcept
 {
-	Matrix max(1, row);
+	Matrix max(row, 1);
 	for (int i = 0; i < row; ++i) {
-		max(i) = data[i * col + 0];
-		for (int j = 0; j < col; ++j) {
-			max(i) = std::max(max(i), data[i * col + j]);
-		}
+		max.data[i] = *std::max_element(cbegin(i), cend(i));
 	}
 	return max;
 }
 
-double Matrix::Min() const
+double Matrix::Min() const noexcept
 {
-	double min = data[0];
-	for (int i = 0; i < row * col; ++i) {
-		min = std::min(min, data[i]);
-	}
-	return min;
+	return *std::min_element(begin(), end());
 }
 
-Matrix Matrix::VerticalMin() const
+Matrix Matrix::VerticalMin() const noexcept
 {
 	Matrix min(1, col);
 	for (int j = 0; j < col; ++j) {
-		min(j) = data[j];
-		for (int i = 0; i < row; ++i) {
-			min(j) = std::min(min(j), data[i * col + j]);
+		double* minIter = data + j;
+		for (int i = 1; i < row; ++i) {
+			if (data[i * col + j] > *minIter) {
+				minIter = data + (i * col + j);
+			}
 		}
+		min.data[j] = *minIter;
 	}
 	return min;
 }
 
-Matrix Matrix::HorizontalMin() const
+Matrix Matrix::HorizontalMin() const noexcept
 {
-	Matrix min(1, row);
+	Matrix min(row, 1);
 	for (int i = 0; i < row; ++i) {
-		min(i) = data[i * col + 0];
-		for (int j = 0; j < col; ++j) {
-			min(i) = std::min(min(i), data[i * col + j]);
-		}
+		min.data[i] = *std::min_element(cbegin(i), cend(i));
 	}
 	return min;
 }
 
-double Matrix::Average() const
+double Matrix::Average() const noexcept
 {
 	return Sum() / Size();
 }
 
-Matrix Matrix::operator+(const Matrix& m) const {
-	if (row != m.row || col != m.col) {
-		throw std::runtime_error("[operator +]different shape");
-	}
-	Matrix result(row, col);
-	for (int i = 0; i < row * col; ++i) {
-		result.data[i] = this->data[i] + m.data[i];
-	}
-	return result;
-}
-
-Matrix Abs(const Matrix& m)
+Matrix Abs(const Matrix& m) noexcept
 {
 	Matrix out(m.Shape());
 	for (int i = 0; i < m.Size(); ++i) {
-		out(i) = std::abs(m(i));
+		out.data[i] = std::abs(m(i));
 	}
 	return out;
 }
 
-Matrix operator+(double d, const Matrix& m)
+Matrix operator + (const Matrix& lhs, const Matrix& rhs) {
+	if (lhs.row != rhs.row || lhs.col != rhs.col) {
+		throw std::runtime_error("[operator +]different shape");
+	}
+	Matrix result(lhs.row, lhs.col);
+	const int size = lhs.row * lhs.col;
+	for (int i = 0; i < size; ++i) {
+		result.data[i] = lhs.data[i] + rhs.data[i];
+	}
+	return result;
+}
+
+Matrix operator+(const Matrix&  m, const double d)
+{
+	Matrix result(m.row, m.col);
+	const int size = m.row * m.col;
+	for (int i = 0; i < size; ++i) {
+		result.data[i] = m.data[i] + d;
+	}
+	return result;
+}
+
+Matrix operator+(const double d, const Matrix& m)
 {
 	return m + d;
 }
 
-Matrix Matrix::operator+(double d) const
-{
-	Matrix result(row, col);
-	for (int i = 0; i < row * col; ++i) {
-		result.data[i] = this->data[i] + d;
-	}
-	return result;
-}
-
-Matrix Matrix::operator-(const Matrix& m) const {
-	if (row != m.row || col != m.col) {
+Matrix operator - (const Matrix& lhs, const Matrix& rhs) {
+	if (lhs.row != rhs.row || lhs.col != rhs.col) {
 		throw std::runtime_error("[operator -]different shape");
 	}
-	Matrix result(row, col);
-	for (int i = 0; i < row * col; ++i) {
-		result.data[i] = this->data[i] - m.data[i];
+	Matrix result(lhs.row, lhs.col);
+	const int size = lhs.row * lhs.col;
+	for (int i = 0; i < size; ++i) {
+		result.data[i] = lhs.data[i] - rhs.data[i];
 	}
 	return result;
 }
 
-Matrix operator-(double d, const Matrix& m)
+Matrix operator-(const Matrix& m, const double d)
 {
 	Matrix result(m.row, m.col);
-	for (int i = 0; i < m.row * m.col; ++i) {
+	const int size = m.row * m.col;
+	for (int i = 0; i < size; ++i) {
+		result.data[i] = m.data[i] - d;
+	}
+	return result;
+}
+
+Matrix operator-(const double d, const Matrix& m)
+{
+	Matrix result(m.row, m.col);
+	const int size = m.row * m.col;
+	for (int i = 0; i < size; ++i) {
 		result.data[i] = d - m.data[i];
 	}
 	return result;
 }
 
-Matrix Matrix::operator-(double d) const
-{
-	Matrix result(row, col);
-	for (int i = 0; i < row * col; ++i) {
-		result.data[i] = this->data[i] - d;
-	}
-	return result;
-}
-
-Matrix Matrix::operator*(const Matrix& m) const {
-	if (col != m.col || row != m.row) {
+Matrix operator * (const Matrix& lhs, const Matrix& rhs) {
+	if (lhs.col != rhs.col || lhs.row != rhs.row) {
 		throw std::runtime_error("[operator *]different shape");
 	}
-	Matrix result(row, col);
-	for (int i = 0; i < row * col; ++i) {
-		result.data[i] = this->data[i] * m.data[i];
+	Matrix result(lhs.row, lhs.col);
+	const int size = lhs.row * lhs.col;
+	for (int i = 0; i < size; ++i) {
+		result.data[i] = lhs.data[i] * rhs.data[i];
 	}
 	return result;
 }
 
-Matrix Matrix::operator*(double coef) const {
-	Matrix result(row, col);
-	for (int i = 0; i < row * col; ++i) {
-		result.data[i] = this->data[i] * coef;
+Matrix operator * (const Matrix& m, const double d) {
+	Matrix result(m.row, m.col);
+	const int size = m.row * m.col;
+	for (int i = 0; i < size; ++i) {
+		result.data[i] = m.data[i] * d;
 	}
 	return result;
 }
 
-Matrix operator * (double coef, const Matrix& m) {
-	return m * coef;
+Matrix operator * (double d, const Matrix& m) {
+	return m * d;
 }
 
-Matrix Matrix::Dot(const Matrix& left, const Matrix& right) {
-	if (left.col != right.row) {
+Matrix operator / (const Matrix& lhs, const Matrix& rhs) {
+	if (lhs.row != rhs.row || lhs.col != rhs.col) {
+		throw std::runtime_error("[operator /]different shape");
+	}
+	Matrix result(lhs.row, lhs.col);
+	const int size = lhs.row * lhs.col;
+	for (int i = 0; i < size; ++i) {
+		result.data[i] = lhs.data[i] / rhs.data[i];
+	}
+	return result;
+}
+
+Matrix operator / (const Matrix& m, const double d) {
+	Matrix result(m.row, m.col);
+	const int size = m.row * m.col;
+	for (int i = 0; i < size; ++i) {
+		result.data[i] = m.data[i] / d;
+	}
+	return result;
+}
+
+Matrix operator/(const double d, const Matrix& m) {
+	Matrix result(m.row, m.col);
+	const int size = m.row * m.col;
+	for (int i = 0; i < size; ++i) {
+		result.data[i] = d / m.data[i];
+	}
+	return result;
+}
+
+
+Matrix Matrix::Dot(const Matrix& lhs, const Matrix& rhs) {
+	if (lhs.col != rhs.row) {
 		throw std::runtime_error("[Dot]not match shape");
 	}
-	Matrix result(left.row, right.col);
-	for (int i = 0; i < left.row; ++i) {
-		for (int j = 0; j < right.col; ++j) {
-			result.data[i * right.col + j] = 0;
-			for (int k = 0; k < left.col; ++k) {
-				result.data[i * right.col + j] += left.data[i * left.col + k] * right.data[k * right.col + j];
-			}
+	const Matrix rhsT = rhs.T();
+	Matrix result(lhs.row, rhsT.row);
+	for (int i = 0; i < lhs.row; ++i) {
+		for (int j = 0; j < rhsT.row; ++j) {
+			result.data[i * rhsT.row + j] =
+				std::inner_product(lhs.cbegin(i), lhs.cend(i), rhsT.cbegin(j), 0.0);
 		}
 	}
 	return result;
 }
 
-Matrix Matrix::operator/(const Matrix& m) const
-{
-	if (row != m.row || col != m.col) {
-		throw std::runtime_error("[operator /]different shape");
+void Matrix::Dot(const Matrix& lhs, const Matrix& rhs, Matrix& result) {
+	if (lhs.col != rhs.row) {
+		throw std::runtime_error("[Dot]not match shape");
 	}
-	Matrix result(row, col);
-	for (int i = 0; i < row * col; ++i) {
-		result.data[i] = this->data[i] / m.data[i];
+	const Matrix rhsT = rhs.T();
+	result.Resize(lhs.row, rhsT.row);
+	for (int i = 0; i < lhs.row; ++i) {
+		for (int j = 0; j < rhsT.row; ++j) {
+			result.data[i * rhsT.row + j] =
+				std::inner_product(lhs.cbegin(i), lhs.cend(i), rhsT.cbegin(j), 0.0);
+		}
 	}
-	return result;
 }
 
-Matrix Matrix::operator/(double coef) const {
-	Matrix result(row, col);
-	for (int i = 0; i < row * col; ++i) {
-		result.data[i] = this->data[i] / coef;
-	}
-	return result;
-}
-
-Matrix operator/(double d, const Matrix& m)
-{
-	Matrix result(m.row, m.col);
-	for (int i = 0; i < m.row * m.col; ++i) {
-		result(i) = d / m(i);
-	}
-	return result;
-}
-
-Matrix& Matrix::operator=(const Matrix& m) {
+Matrix& Matrix::operator=(const Matrix& m) noexcept {
 	if (row != m.row || col != m.col) {
 		Resize(m.row, m.col);
 	}
-	for (int i = 0; i < row * col; ++i) {
-		data[i] = m.data[i];
-	}
+	std::copy(m.begin(), m.end(), data);
+	return *this;
+}
+
+Matrix& Matrix::operator=(Matrix&& m) noexcept
+{
+	delete[] data;
+	data = m.data;
+	row = m.row;
+	col = m.col;
+	capacity = m.capacity;
+	m.data = nullptr;
 	return *this;
 }
 
@@ -387,7 +422,8 @@ Matrix& Matrix::operator+=(const Matrix& m) {
 	if (row != m.row || col != m.col) {
 		throw std::runtime_error("[operator +=]different shape");
 	}
-	for (int i = 0; i < row * col; ++i) {
+	const int size = row * col;
+	for (int i = 0; i < size; ++i) {
 		this->data[i] += m.data[i];
 	}
 	return *this;
@@ -397,7 +433,8 @@ Matrix& Matrix::operator-=(const Matrix& m) {
 	if (row != m.row || col != m.col) {
 		throw std::runtime_error("[operator -=]different shape");
 	}
-	for (int i = 0; i < row * col; ++i) {
+	const int size = row * col;
+	for (int i = 0; i < size; ++i) {
 		this->data[i] -= m.data[i];
 	}
 	return *this;
@@ -407,16 +444,17 @@ Matrix& Matrix::operator*=(const Matrix& m) {
 	if (row != m.row || col != m.col) {
 		throw std::runtime_error("[operator *=]different shape");
 	}
-	for (int i = 0; i < row * col; ++i) {
+	const int size = row * col;
+	for (int i = 0; i < size; ++i) {
 		this->data[i] *= m.data[i];
 	}
 	return *this;
 }
 
-Matrix& Matrix::operator*=(double coef)
+Matrix& Matrix::operator*=(double d)
 {
-	for (int i = 0; i < row * col; ++i) {
-		this->data[i] *= coef;
+	for (double& i : *this) {
+		i *= d;
 	}
 	return *this;
 }
@@ -426,45 +464,33 @@ Matrix& Matrix::operator/=(const Matrix& m)
 	if (row != m.row || col != m.col) {
 		throw std::runtime_error("[operator /=]different shape");
 	}
-	for (int i = 0; i < row * col; ++i) {
+	const int size = row * col;
+	for (int i = 0; i < size; ++i) {
 		this->data[i] /= m.data[i];
 	}
 	return *this;
 }
 
-Matrix& Matrix::operator/=(double coef)
+Matrix& Matrix::operator/=(double d)
 {
-	for (int i = 0; i < row * col; ++i) {
-		this->data[i] /= coef;
+	for (double& i : *this) {
+		i /= d;
 	}
 	return *this;
 }
 
-bool Matrix::operator==(const Matrix& m) const noexcept {
-	if (row != m.row) return false;
-	if (col != m.col) return false;
-	for (int i = 0; i < row * col; ++i) {
-		if (this->data[i] != m.data[i]) return false;
+bool operator==(const Matrix& lhs, const Matrix& rhs) noexcept {
+	if (lhs.row != rhs.row) return false;
+	if (lhs.col != rhs.col) return false;
+	const int size = lhs.row * lhs.col;
+	for (int i = 0; i < size; ++i) {
+		if (lhs.data[i] != rhs.data[i]) return false;
 	}
 	return true;
 }
 
-bool Matrix::operator!=(const Matrix& m) const noexcept {
-	return !(*this == m);
-}
-
-double& Matrix::operator()(int i) const {
-	if (i >= Size()) {
-		throw std::runtime_error("[operator (i)]out of data");
-	}
-	return data[i];
-}
-
-double& Matrix::operator()(int i, int j) const {
-	if (i * col + j >= Size()) {
-		throw std::runtime_error("[operator (i,j)]out of data");
-	}
-	return data[i * col + j];
+bool operator != (const Matrix& lhs, const Matrix& rhs) noexcept {
+	return !(lhs == rhs);
 }
 
 std::ostream& operator<<(std::ostream& os, const Matrix& m) {

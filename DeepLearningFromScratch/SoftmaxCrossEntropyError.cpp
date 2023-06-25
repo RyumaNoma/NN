@@ -5,7 +5,8 @@
 
 double loss_layer::SoftmaxCrossEntropyError::Forward(const Matrix& pred, const Matrix& answer)
 {
-    this->pred = Common::softmax(pred);
+	this->pred = pred;
+    Common::softmax(this->pred);
     this->answer = answer;
     return Common::cross_entropy_error(this->pred, this->answer);
 }

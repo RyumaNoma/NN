@@ -4,9 +4,9 @@
 
 namespace layer {
 	Dense::Dense(
-		int inputSize,
-		int outputSize,
-		Initializer::Type initializeType,
+		const int inputSize,
+		const int outputSize,
+		const Initializer::Type initializeType,
 		std::mt19937& initializeRandomEngine,
 		std::shared_ptr<optimizer::Optimizer> optWeight,
 		std::shared_ptr<optimizer::Optimizer> optBias,
@@ -24,17 +24,16 @@ namespace layer {
 		Initializer::Initialize(weight, initializeRandomEngine, initializeType);
 	}
 
+	// TODO: BroadCast‚ð‚µ‚È‚¢‚æ‚¤‚É‰‰ŽZŽq‚ðì‚é
 	Matrix Dense::Forward(const Matrix& in)
 	{
 		this->input = in;
-		Matrix broadcastBias(in.Row(), bias.Col());
-		for (int i = 0; i < broadcastBias.Row(); ++i) {
-			for (int j = 0; j < broadcastBias.Col(); ++j) {
-				broadcastBias(i, j) = bias(0, j);
+		Matrix out = Matrix::Dot(in, weight);
+		for (int i = 0; i < out.Row(); ++i) {
+			for (int j = 0; j < out.Col(); ++j) {
+				out(i, j) += bias(0, j);
 			}
 		}
-		Matrix out;
-		out = Matrix::Dot(in, weight) + broadcastBias;
 		return out;
 	}
 
@@ -42,7 +41,7 @@ namespace layer {
 	{
 		Matrix dInput = Matrix::Dot(dout, weight.T());
 		dWeight = Matrix::Dot(input.T(), dout);
-		dBias = dout.VerticalSum().T();
+		dBias = dout.VerticalSum();
 		return dInput;
 	}
 	void Dense::Update()
