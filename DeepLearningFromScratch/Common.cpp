@@ -5,32 +5,29 @@
 #include <numeric>
 #include <cmath>
 
-double Common::relu(double d) noexcept {
+double Common::relu(const double d) noexcept {
 	return std::max(0.0, d);
 }
 
-double Common::sigmoid(double d) noexcept {
+double Common::sigmoid(const double d) noexcept {
 	return 1 / (1 + std::exp(-d));
 }
 
-Matrix Common::softmax(const Matrix& m)
+void Common::softmax(Matrix& m)
 {
-	Matrix out(m.Shape());
 	Matrix max = m.HorizontalMax();
 
 	for (int i = 0; i < m.Row(); ++i) {
 		for (int j = 0; j < m.Col(); ++j) {
-			out(i, j) = std::exp(m(i, j) - max(i));
+			m(i, j) = std::exp(m(i, j) - max(i));
 		}
 	}
-	Matrix sum = out.HorizontalSum();
+	Matrix sum = m.HorizontalSum();
 	for (int i = 0; i < m.Row(); ++i) {
 		for (int j = 0; j < m.Col(); ++j) {
-			out(i, j) /= sum(i, 0);
+			m(i, j) /= sum(i, 0);
 		}
-	}
-
-	return out;
+	}	
 }
 
 double Common::cross_entropy_error(const Matrix& pred, const Matrix& answer)
@@ -82,9 +79,7 @@ Matrix Common::pick(const Matrix& data, const std::vector<int>& index)
 {
 	Matrix out(index.size(), data.Col());
 	for (int i = 0; i < index.size(); ++i) {
-		for (int j = 0; j < data.Col(); ++j) {
-			out(i, j) = data(index[i], j);
-		}
+		std::copy(data.cbegin(i), data.cend(i), out.cbegin(i));
 	}
 	return out;
 }
@@ -116,17 +111,10 @@ Matrix Common::numerical_gradient(Matrix& params, NeuralNetwork& nn, const Matri
 
 Matrix Common::onehot(const Matrix& verticalVector, int numClasses)
 {
-	Matrix converted(verticalVector.Row(), numClasses);
+	Matrix converted(verticalVector.Row(), numClasses, 0.0);
 
 	for (int i = 0; i < verticalVector.Row(); ++i) {
-		for (int j = 0; j < numClasses; ++j) {
-			if (j == verticalVector(i, 0)) {
-				converted(i, j) = 1.0;
-			}
-			else {
-				converted(i, j) = 0.0;
-			}
-		}
+		converted(i, static_cast<int>(verticalVector(i, 0))) = 1.0;
 	}
 	return converted;
 }

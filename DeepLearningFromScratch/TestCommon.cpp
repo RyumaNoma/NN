@@ -10,8 +10,8 @@ void TestCommon::Softmax()
 	double data[6] = { 1010, 1000, 990, 1000, 1010, 990 };
 	Matrix in(2, 3, data);
 
-	Matrix out = Common::softmax(in);
-	std::cerr << out << std::endl;
+	Common::softmax(in);
+	std::cerr << in << std::endl;
 	std::cerr << "finish softmax test" << std::endl;
 }
 
