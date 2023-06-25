@@ -9,20 +9,17 @@ class Matrix {
 public:
 	using ShapeType = std::tuple<int, int>;
 	Matrix() noexcept;
-	Matrix(int row, int col) noexcept;
+	Matrix(const int row, const int col) noexcept;
 	Matrix(const ShapeType& shape) noexcept;
 	Matrix(const Matrix& m) noexcept;
 	Matrix(Matrix&& m) noexcept;
-	Matrix(int row, int col, double const* rawData) noexcept;
-	Matrix(int row, int col, double fill) noexcept;
-	Matrix(int row, int col, const std::vector<int>& flattenData) noexcept;
+	Matrix(const int row, const int col, double const* rawData) noexcept;
+	Matrix(const int row, const int col, double fill) noexcept;
+	Matrix(const int row, const int col, const std::vector<int>& flattenData) noexcept;
 	~Matrix();
 
-	// ATTENTION: 必ず元のデータの削除と新しい領域の確保を行う
-	// 元のデータも残らない
-	// TODO: vectorのresizeと同じような実装
-	void Resize(int newRow, int newCol);
-	void Reshape(int newRow, int newCol);
+	void Resize(const int newRow, const int newCol);
+	void Reshape(const int newRow, const int newCol);
 	void Reshape(const ShapeType& shape);
 
 	int Row() const noexcept { return row; }
@@ -53,37 +50,37 @@ public:
 
 	inline double* begin() const { return data; }
 	inline double* end() const { return data + (row * col); }
-	inline double* cbegin(int row) const { return data + (row * this->col); }
-	inline double* cend(int row) const { return data + (row * this->col + this->col); }
+	inline double* cbegin(const int row) const { return data + (row * this->col); }
+	inline double* cend(const int row) const { return data + (row * this->col + this->col); }
 
-	Matrix operator + (const Matrix& m) const;
-	friend Matrix operator + (double d, const Matrix& m);
-	Matrix operator + (double d) const;
+	friend Matrix operator + (const Matrix& lhs, const Matrix& rhs);
+	friend Matrix operator + (const Matrix& m, const double d);
+	friend Matrix operator + (const double d, const Matrix& m);
 
-	Matrix operator - (const Matrix& m) const;
-	Matrix operator - (double d) const;
-	friend Matrix operator - (double d, const Matrix& m);
+	friend Matrix operator - (const Matrix& lhs, const Matrix& rhs);
+	friend Matrix operator - (const Matrix& m, const double d);
+	friend Matrix operator - (const double d, const Matrix& m);
 
-	Matrix operator * (const Matrix& m) const;
-	Matrix operator * (double coef) const;
-	friend Matrix operator * (double coef, const Matrix& m);
+	friend Matrix operator * (const Matrix& lhs, const Matrix& rhs);
+	friend Matrix operator * (const Matrix& m, const double d);
+	friend Matrix operator * (const double d, const Matrix& m);
 
-	Matrix operator / (const Matrix& m) const;
-	Matrix operator / (double coef) const;
-	friend Matrix operator / (double d, const Matrix& m);
+	friend Matrix operator / (const Matrix& lhs, const Matrix& rhs);
+	friend Matrix operator / (const Matrix& m, const double d);
+	friend Matrix operator / (const double d, const Matrix& m);
 
-	static Matrix Dot(const Matrix& left, const Matrix& right);
+	static Matrix Dot(const Matrix& lhs, const Matrix& rhs);
 
-	Matrix& operator = (const Matrix& m);
+	Matrix& operator = (const Matrix& m) noexcept;
 	Matrix& operator = (Matrix&& m) noexcept;
 	Matrix& operator += (const Matrix& m);
 	Matrix& operator -= (const Matrix& m);
 	Matrix& operator *= (const Matrix& m);
-	Matrix& operator *= (double coef);
+	Matrix& operator *= (double d);
 	Matrix& operator /= (const Matrix& m);
-	Matrix& operator /= (double coef);
-	bool operator == (const Matrix& m) const noexcept;
-	bool operator != (const Matrix& m) const noexcept;
+	Matrix& operator /= (double d);
+	friend bool operator == (const Matrix& lhs, const Matrix& rhs) noexcept;
+	friend bool operator != (const Matrix& lhs, const Matrix& rhs) noexcept;
 	inline double& operator () (int i) const {
 		if (i >= Size()) {
 			throw std::runtime_error("[operator (i)]out of data");
